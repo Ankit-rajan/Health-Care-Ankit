@@ -111,6 +111,9 @@ HospitalManagement_Django/
 ├── manage.py            # Django Management Script
 ├── requirements.txt     # Dependencies
 └── .gitignore           # Git exclusions
+
+
+
 🤝 Contributing
 Pull requests are welcome. For significant changes, please open an issue first to discuss what you'd like to change.
 
