@@ -1,0 +1,11 @@
+# Ignore the virtual environment folder
+venv/
+
+# Ignore Python bytecode files
+__pycache__/
+*.pyc
+
+# Ignore other common files that shouldn't be versioned
+.env
+*.log
+*.sqlite3
