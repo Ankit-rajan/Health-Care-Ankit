@@ -56,6 +56,34 @@ A Django-based web application for managing hospital operations. Patients can re
 - pip (Python package manager)
 - Git
 
+
+
+🗂️ Project Structure
+
+HospitalManagement_Django/
+│
+├── hospital/            # Core Django app
+├── templates/           # HTML templates
+├── static/              # CSS/JS/Images
+├── db.sqlite3           # SQLite Database
+├── manage.py            # Django Management Script
+├── requirements.txt     # Dependencies
+└── .gitignore           # Git exclusions
+🤝 Contributing
+Pull requests are welcome. For significant changes, please open an issue first to discuss what you'd like to change.
+
+
+
+📄 License
+This project is licensed under the MIT License. See the LICENSE file for more details.
+
+🙋‍♂️ Author
+Ankit
+Roll No: 2203002024
+6th Semester, BCA
+[GitHub Profile](https://github.com/Ankit-rajan)
+
+
 ### Setup Instructions
 
 
@@ -98,28 +126,3 @@ EMAIL_HOST_PASSWORD = 'your-app-password'
 ⚠️ If using Gmail, enable 2-step verification and generate an App Password for secure authentication.
 
 
-
-🗂️ Project Structure
-
-HospitalManagement_Django/
-│
-├── hospital/            # Core Django app
-├── templates/           # HTML templates
-├── static/              # CSS/JS/Images
-├── db.sqlite3           # SQLite Database
-├── manage.py            # Django Management Script
-├── requirements.txt     # Dependencies
-└── .gitignore           # Git exclusions
-🤝 Contributing
-Pull requests are welcome. For significant changes, please open an issue first to discuss what you'd like to change.
-
-
-
-📄 License
-This project is licensed under the MIT License. See the LICENSE file for more details.
-
-🙋‍♂️ Author
-Ankit
-Roll No: 2203002024
-6th Semester, BCA
-[GitHub Profile](https://github.com/Ankit-rajan)
