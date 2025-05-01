@@ -1,4 +1,4 @@
-# 🏥 Health Care - Hospital Management System (Django)
+# 🏥 Health Care  Management System (Django) By Ankit
 
 A Django-based web application for managing hospital operations. Patients can register, book appointments, and contact staff, while admins can assign doctors, manage admissions, and maintain complete patient records. The system features automated email notifications and a user-friendly interface.
 
@@ -58,6 +58,7 @@ A Django-based web application for managing hospital operations. Patients can re
 
 ### Setup Instructions
 
+
 ```bash
 # 1. Clone the repository
 git clone https://github.com/Ankit-rajan/Health-Care-Ankit.git
@@ -87,9 +88,7 @@ python manage.py runserver
 ✉️ Email Configuration
 Add the following in settings.py to enable email functionality:
 
-python
-Copy
-Edit
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
@@ -101,9 +100,7 @@ EMAIL_HOST_PASSWORD = 'your-app-password'
 
 
 🗂️ Project Structure
-csharp
-Copy
-Edit
+
 HospitalManagement_Django/
 │
 ├── hospital/            # Core Django app
