@@ -58,19 +58,6 @@ A Django-based web application for managing hospital operations. Patients can re
 
 
 
-🗂️ Project Structure
-
-HospitalManagement_Django/
-│
-├── hospital/            # Core Django app
-├── templates/           # HTML templates
-├── static/              # CSS/JS/Images
-├── db.sqlite3           # SQLite Database
-├── manage.py            # Django Management Script
-├── requirements.txt     # Dependencies
-└── .gitignore           # Git exclusions
-🤝 Contributing
-Pull requests are welcome. For significant changes, please open an issue first to discuss what you'd like to change.
 
 
 
@@ -111,6 +98,21 @@ python manage.py createsuperuser
 python manage.py runserver
 
 
+
+
+🗂️ Project Structure
+
+HospitalManagement_Django/
+│
+├── hospital/            # Core Django app
+├── templates/           # HTML templates
+├── static/              # CSS/JS/Images
+├── db.sqlite3           # SQLite Database
+├── manage.py            # Django Management Script
+├── requirements.txt     # Dependencies
+└── .gitignore           # Git exclusions
+🤝 Contributing
+Pull requests are welcome. For significant changes, please open an issue first to discuss what you'd like to change.
 
 
 ✉️ Email Configuration
