@@ -219,31 +219,131 @@ def admin_signup_view(request):
 #         'show_messages': True  # Allow messages to be shown after POST
 #     })
 
+# class AdminLoginConfirmationView(View):
+#     template_name = 'hospital/adminlogin.html'
+
+#     def get(self, request):
+#         # When the login page is first loaded (GET request),
+#         # we simply create an empty login form
+#         form = AuthenticationForm()
+
+#         # show_messages is False because we don't want to show any messages on initial load
+#         return render(request, self.template_name, {
+#             'form': form,
+#             'show_messages': False
+#         })
+
+#     def post(self, request):
+#         # When the form is submitted (POST request),
+#         # bind the form with submitted data
+#         form = AuthenticationForm(request, data=request.POST)
+
+#         if form.is_valid():
+#             # If form credentials are correct, authenticate the user
+#             user = form.get_user()
+#             login(request, user)
+
+#             # Prepare and send a confirmation email after successful login
+#             subject = "Admin Login Successful"
+#             message = (
+#                 f"Hello {user.first_name},\n\n"
+#                 "You have successfully logged in to the Hospital Management System.\n\n"
+#                 "Best regards,\nHospital Management System"
+#             )
+#             send_mail(
+#                 subject,
+#                 message,
+#                 settings.EMAIL_HOST_USER,  # Sender (configured in settings)
+#                 [user.email],              # Recipient (admin's email)
+#                 fail_silently=False
+#             )
+
+#             # Show a success message (this will display on the next page after redirect)
+#             messages.success(request, "Login successful! A confirmation email has been sent to your email address.")
+
+#             # Redirect to the admin dashboard after login — prevents form from resubmitting and avoids showing login form again
+#             return redirect('admin-dashboard')
+
+#         # If login fails (invalid credentials), re-render the login page
+#         # and show an error message
+#         messages.error(request, "Invalid username or password.")
+#         return render(request, self.template_name, {
+#             'form': form,
+#             'show_messages': True  # Allow messages to be shown after POST
+#         })
+
+
+# class AdminLoginConfirmationView(View):
+#     template_name = 'hospital/adminlogin.html'
+
+#     def get(self, request):
+#         # When the login page is first loaded (GET request),
+#         # we simply create an empty login form
+#         form = AuthenticationForm()
+
+#         # show_messages is False because we don't want to show any messages on initial load
+#         return render(request, self.template_name, {
+#             'form': form,
+#             'show_messages': False
+#         })
+
+#     def post(self, request):
+#         # When the form is submitted (POST request),
+#         # bind the form with submitted data
+#         form = AuthenticationForm(request, data=request.POST)
+
+#         if form.is_valid():
+#             # If form credentials are correct, authenticate the user
+#             user = form.get_user()
+#             login(request, user)
+
+#             # Prepare and send a confirmation email after successful login
+#             subject = "Admin Login Successful"
+#             message = (
+#                 f"Hello {user.first_name},\n\n"
+#                 "You have successfully logged in to the Hospital Management System.\n\n"
+#                 "Best regards,\nHospital Management System"
+#             )
+#             send_mail(
+#                 subject,
+#                 message,
+#                 settings.EMAIL_HOST_USER,  # Sender (configured in settings)
+#                 [user.email],              # Recipient (admin's email)
+#                 fail_silently=False
+#             )
+
+#             # Add success message for Toastr
+#             messages.success(request, "Login successful! A confirmation email has been sent to your email address.")
+
+#             # Redirect to the admin dashboard after login — prevents form from resubmitting and avoids showing login form again
+#             return redirect('admin-dashboard')
+
+#         # If login fails (invalid credentials), re-render the login page and show an error message
+#         messages.error(request, "Invalid username or password.")
+#         return render(request, self.template_name, {
+#             'form': form,
+#             'show_messages': True  # Allow messages to be shown after POST
+#         })
 class AdminLoginConfirmationView(View):
     template_name = 'hospital/adminlogin.html'
 
     def get(self, request):
-        # When the login page is first loaded (GET request),
-        # we simply create an empty login form
+        # Create an empty login form when the login page is first loaded
         form = AuthenticationForm()
 
-        # show_messages is False because we don't want to show any messages on initial load
         return render(request, self.template_name, {
-            'form': form,
-            'show_messages': False
+            'form': form
         })
 
     def post(self, request):
-        # When the form is submitted (POST request),
-        # bind the form with submitted data
         form = AuthenticationForm(request, data=request.POST)
 
         if form.is_valid():
-            # If form credentials are correct, authenticate the user
+            # Authenticate the user and log them in
             user = form.get_user()
             login(request, user)
 
-            # Prepare and send a confirmation email after successful login
+            # Prepare and send confirmation email
             subject = "Admin Login Successful"
             message = (
                 f"Hello {user.first_name},\n\n"
@@ -258,20 +358,17 @@ class AdminLoginConfirmationView(View):
                 fail_silently=False
             )
 
-            # Show a success message (this will display on the next page after redirect)
+            # Add success message for Toastr
             messages.success(request, "Login successful! A confirmation email has been sent to your email address.")
 
-            # Redirect to the admin dashboard after login — prevents form from resubmitting and avoids showing login form again
+            # Redirect to the admin dashboard after successful login
             return redirect('admin-dashboard')
 
-        # If login fails (invalid credentials), re-render the login page
-        # and show an error message
+        # If login fails, add error message
         messages.error(request, "Invalid username or password.")
         return render(request, self.template_name, {
-            'form': form,
-            'show_messages': True  # Allow messages to be shown after POST
+            'form': form
         })
-
 
 
 
