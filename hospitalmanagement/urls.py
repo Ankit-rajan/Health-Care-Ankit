@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path
 from hospital import views
 from django.contrib.auth.views import LoginView,LogoutView
-
+from hospital.views import AdminLoginConfirmationView  # Correct import
 
 #-------------FOR ADMIN RELATED URLS
 urlpatterns = [
@@ -22,7 +22,12 @@ urlpatterns = [
     path('doctorsignup', views.doctor_signup_view,name='doctorsignup'),
     path('patientsignup', views.patient_signup_view),
     
-    path('adminlogin', LoginView.as_view(template_name='hospital/adminlogin.html')),
+    # path('adminlogin', LoginView.as_view(template_name='hospital/adminlogin.html')),
+    # path('adminlogin', LoginView.as_view(template_name='hospital/adminlogin.html'), name='adminlogin'),
+    # path('adminlogin', AdminLoginConfirmationView.as_view(), name='adminlogin'),
+    # path('adminlogin', AdminLoginConfirmationView.as_view(), name='adminlogin'),
+     path('adminlogin', AdminLoginConfirmationView.as_view(), name='adminlogin'),  # Use the class-based view here
+
     path('doctorlogin', LoginView.as_view(template_name='hospital/doctorlogin.html')),
     path('patientlogin', LoginView.as_view(template_name='hospital/patientlogin.html')),
 

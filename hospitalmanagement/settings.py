@@ -137,7 +137,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'userhost28@gmail.com' # this email will be used to send emails
-EMAIL_HOST_PASSWORD = 'abgv lipg sghi wgon' # host email password required
+EMAIL_HOST_PASSWORD = 'srvx ivyw yibx mxie' # host email password required
 # now sign in with your host gmail account in your browser
 # open following link and turn it ON
 # https://myaccount.google.com/lesssecureapps

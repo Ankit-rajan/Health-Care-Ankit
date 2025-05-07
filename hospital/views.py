@@ -7,6 +7,20 @@ from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required,user_passes_test
 from datetime import datetime,timedelta,date
 from django.conf import settings
+from django.shortcuts import redirect
+from django.contrib import messages
+from django.contrib.auth.models import User
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
+from django.contrib import messages
+from django.core.mail import send_mail
+from django.conf import settings
+from django.views.generic import View
+from django.contrib.auth.forms import AuthenticationForm
+# Import necessary views
+from hospital import views  # This imports the views.py file
+
+
 
 # Create your views here.
 def home_view(request):
@@ -37,19 +51,227 @@ def patientclick_view(request):
 
 
 
+# change no.2
+
+# def admin_signup_view(request):
+#     form=forms.AdminSigupForm()
+#     if request.method=='POST':
+#         form=forms.AdminSigupForm(request.POST)
+#         if form.is_valid():
+#             user=form.save()
+#             user.set_password(user.password)
+#             user.save()
+#             my_admin_group = Group.objects.get_or_create(name='ADMIN')
+#             my_admin_group[0].user_set.add(user)
+#             return HttpResponseRedirect('adminlogin')
+#     return render(request,'hospital/adminsignup.html',{'form':form})
+
+# from django.shortcuts import render, redirect
+# from django.http import HttpResponseRedirect
+# from django.core.mail import send_mail
+# from django.conf import settings
+# from django.contrib.auth.models import Group
+# from . import forms
+# from django.contrib import messages
+# from django.core.mail import send_mail
+# from django.shortcuts import render, redirect
+# from django.conf import settings
+# from . import forms
+# from django.contrib.auth.models import Group
 
 def admin_signup_view(request):
-    form=forms.AdminSigupForm()
-    if request.method=='POST':
-        form=forms.AdminSigupForm(request.POST)
+    form = forms.AdminSignupForm()
+
+    if request.method == 'POST':
+        form = forms.AdminSignupForm(request.POST)
         if form.is_valid():
-            user=form.save()
-            user.set_password(user.password)
+            # Check if the username already exists
+            username = form.cleaned_data.get('username')
+            if User.objects.filter(username=username).exists():
+                messages.warning(request, "Username already exists. Please choose a different one.")
+                return render(request, 'hospital/adminsignup.html', {'form': form})
+
+            # Save the user and set the password
+            user = form.save(commit=False)
+            user.set_password(user.password)  # Hash the password before saving
             user.save()
+
+            # Assign the user to the 'ADMIN' group
             my_admin_group = Group.objects.get_or_create(name='ADMIN')
             my_admin_group[0].user_set.add(user)
-            return HttpResponseRedirect('adminlogin')
-    return render(request,'hospital/adminsignup.html',{'form':form})
+
+            # Send confirmation email to the new admin user
+            subject = "Admin Account Created"
+            message = f"Hello {user.first_name},\n\nYour admin account has been successfully created! You can now log in using your credentials.\n\nBest regards,\nHeath Care Management Team"
+            
+            send_mail(
+                subject,
+                message,
+                settings.EMAIL_HOST_USER,
+                [user.email],
+                fail_silently=False,
+            )
+
+            # Success message
+            messages.success(request, "Admin registered successfully! Please log in.")
+            return redirect('adminlogin')
+
+        else:
+            # Optional: Print form errors for debugging (can be removed in production)
+            print(form.errors)
+            messages.error(request, "Please correct the errors below.")
+
+    return render(request, 'hospital/adminsignup.html', {'form': form})
+
+
+
+
+
+
+
+#admin login view
+
+
+#     def get(self, request):
+#         form = AuthenticationForm()
+#         return render(request, self.template_name, {'form': form})
+
+#     def post(self, request):
+#         form = AuthenticationForm(request, data=request.POST)
+
+#         if form.is_valid():
+#             # Authenticate the user
+#             user = form.get_user()
+#             login(request, user)
+            
+#             # Send confirmation email to the admin user
+#             subject = "Admin Login Successful"
+#             message = f"Hello {user.first_name},\n\nYou have successfully logged in to the Hospital Management System.\n\nBest regards,\nHospital Management System"
+            
+#             send_mail(
+#                 subject,
+#                 message,
+#                 settings.EMAIL_HOST_USER,  # The email address configured in settings.py
+#                 [user.email],  # Send the email to the admin's registered email
+#                 fail_silently=False,
+#             )
+            
+#             # Display success message
+#             messages.success(request, "Login successful! A confirmation email has been sent to your email address.")
+
+#             # Redirect to the admin dashboard or any other page after login
+#             return redirect('admin-dashboard')  # Change this to the appropriate view
+
+#         # If form is not valid, re-render the page with form errors
+#         messages.error(request, "Invalid username or password.")
+#         return render(request, self.template_name, {'form': form})
+
+# class AdminLoginConfirmationView(View):
+#     template_name = 'hospital/adminlogin.html'
+
+# def get(self, request):
+#     # When the login page is first loaded (GET request),
+#     # we simply create an empty login form
+#     form = AuthenticationForm()
+
+#     # show_messages is False because we don't want to show any messages on initial load
+#     return render(request, self.template_name, {
+#         'form': form,
+#         'show_messages': False
+#     })
+
+# def post(self, request):
+#     # When the form is submitted (POST request),
+#     # bind the form with submitted data
+#     form = AuthenticationForm(request, data=request.POST)
+
+#     if form.is_valid():
+#         # If form credentials are correct, authenticate the user
+#         user = form.get_user()
+#         login(request, user)
+
+#         # Prepare and send a confirmation email after successful login
+#         subject = "Admin Login Successful"
+#         message = (
+#             f"Hello {user.first_name},\n\n"
+#             "You have successfully logged in to the Hospital Management System.\n\n"
+#             "Best regards,\nHospital Management System"
+#         )
+#         send_mail(
+#             subject,
+#             message,
+#             settings.EMAIL_HOST_USER,  # Sender (configured in settings)
+#             [user.email],              # Recipient (admin's email)
+#             fail_silently=False
+#         )
+
+#         # Show a success message (this will display on the next page after redirect)
+#         messages.success(request, "Login successful! A confirmation email has been sent to your email address.")
+
+#         # Redirect to the admin dashboard after login — prevents form from resubmitting and avoids showing login form again
+#         return redirect('admin-dashboard')
+
+#     # If login fails (invalid credentials), re-render the login page
+#     # and show an error message
+#     messages.error(request, "Invalid username or password.")
+#     return render(request, self.template_name, {
+#         'form': form,
+#         'show_messages': True  # Allow messages to be shown after POST
+#     })
+
+class AdminLoginConfirmationView(View):
+    template_name = 'hospital/adminlogin.html'
+
+    def get(self, request):
+        # When the login page is first loaded (GET request),
+        # we simply create an empty login form
+        form = AuthenticationForm()
+
+        # show_messages is False because we don't want to show any messages on initial load
+        return render(request, self.template_name, {
+            'form': form,
+            'show_messages': False
+        })
+
+    def post(self, request):
+        # When the form is submitted (POST request),
+        # bind the form with submitted data
+        form = AuthenticationForm(request, data=request.POST)
+
+        if form.is_valid():
+            # If form credentials are correct, authenticate the user
+            user = form.get_user()
+            login(request, user)
+
+            # Prepare and send a confirmation email after successful login
+            subject = "Admin Login Successful"
+            message = (
+                f"Hello {user.first_name},\n\n"
+                "You have successfully logged in to the Hospital Management System.\n\n"
+                "Best regards,\nHospital Management System"
+            )
+            send_mail(
+                subject,
+                message,
+                settings.EMAIL_HOST_USER,  # Sender (configured in settings)
+                [user.email],              # Recipient (admin's email)
+                fail_silently=False
+            )
+
+            # Show a success message (this will display on the next page after redirect)
+            messages.success(request, "Login successful! A confirmation email has been sent to your email address.")
+
+            # Redirect to the admin dashboard after login — prevents form from resubmitting and avoids showing login form again
+            return redirect('admin-dashboard')
+
+        # If login fails (invalid credentials), re-render the login page
+        # and show an error message
+        messages.error(request, "Invalid username or password.")
+        return render(request, self.template_name, {
+            'form': form,
+            'show_messages': True  # Allow messages to be shown after POST
+        })
+
 
 
 
