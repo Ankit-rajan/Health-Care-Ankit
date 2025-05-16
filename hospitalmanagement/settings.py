@@ -130,6 +130,7 @@ MEDIA_ROOT=os.path.join(BASE_DIR,'static')
 
 
 LOGIN_REDIRECT_URL='/afterlogin'
+HOSPITAL_NAME = 'MUTLI SPECIALITY HOSPITAL'
 
 #for contact us give your gmail id and password
 EMAIL_BACKEND ='django.core.mail.backends.smtp.EmailBackend'

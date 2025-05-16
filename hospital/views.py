@@ -393,27 +393,117 @@ def doctor_signup_view(request):
     return render(request,'hospital/doctorsignup.html',context=mydict)
 
 
+# def patient_signup_view(request):
+#     userForm=forms.PatientUserForm()
+#     patientForm=forms.PatientForm()
+#     mydict={'userForm':userForm,'patientForm':patientForm}
+#     if request.method=='POST':
+#         userForm=forms.PatientUserForm(request.POST)
+#         patientForm=forms.PatientForm(request.POST,request.FILES)
+#         if userForm.is_valid() and patientForm.is_valid():
+#             user=userForm.save()
+#             user.set_password(user.password)
+#             user.save()
+#             patient=patientForm.save(commit=False)
+#             patient.user=user
+#             patient.assignedDoctorId=request.POST.get('assignedDoctorId')
+#             patient=patient.save()
+#             my_patient_group = Group.objects.get_or_create(name='PATIENT')
+#             my_patient_group[0].user_set.add(user)
+#         return HttpResponseRedirect('patientlogin')
+#     return render(request,'hospital/patientsignup.html',context=mydict)
+
+
+
+# def patient_signup_view(request):
+#     userForm = forms.PatientUserForm()
+#     patientForm = forms.PatientForm()
+#     mydict = {'userForm': userForm, 'patientForm': patientForm}
+    
+#     if request.method == 'POST':
+#         userForm = forms.PatientUserForm(request.POST)
+#         patientForm = forms.PatientForm(request.POST, request.FILES)
+        
+#         if userForm.is_valid() and patientForm.is_valid():
+#             # Save the user
+#             user = userForm.save()
+#             user.set_password(user.password)
+#             user.save()
+            
+#             # Save the patient (but don't commit to DB yet, to link the user)
+#             patient = patientForm.save(commit=False)
+#             patient.user = user
+#             patient.assignedDoctorId = request.POST.get('assignedDoctorId')
+#             patient.save()  # Save the patient object
+
+#             # Add the user to the 'PATIENT' group
+#             my_patient_group = Group.objects.get_or_create(name='PATIENT')
+#             my_patient_group[0].user_set.add(user)
+            
+#             # Send the email
+#             send_mail(
+#                 subject='Welcome to Our Hospital',
+#                 message=f"Dear {user.first_name},\n\nThank you for registering with our Hospital Management System. Your assigned doctor will review your profile shortly.\n\nBest regards,\nHospital Admin",
+#                 from_email=settings.DEFAULT_FROM_EMAIL,
+#                 recipient_list=[user.email],
+#                 fail_silently=False,
+#             )
+
+#         return HttpResponseRedirect('patientlogin')
+    
+#     return render(request, 'hospital/patientsignup.html', context=mydict)
+
+
+
 def patient_signup_view(request):
-    userForm=forms.PatientUserForm()
-    patientForm=forms.PatientForm()
-    mydict={'userForm':userForm,'patientForm':patientForm}
-    if request.method=='POST':
-        userForm=forms.PatientUserForm(request.POST)
-        patientForm=forms.PatientForm(request.POST,request.FILES)
+    userForm = forms.PatientUserForm()
+    patientForm = forms.PatientForm()
+    mydict = {'userForm': userForm, 'patientForm': patientForm}
+    
+    if request.method == 'POST':
+        userForm = forms.PatientUserForm(request.POST)
+        patientForm = forms.PatientForm(request.POST, request.FILES)
+        
         if userForm.is_valid() and patientForm.is_valid():
-            user=userForm.save()
+            # Save the user
+            user = userForm.save()
             user.set_password(user.password)
             user.save()
-            patient=patientForm.save(commit=False)
-            patient.user=user
-            patient.assignedDoctorId=request.POST.get('assignedDoctorId')
-            patient=patient.save()
+            
+            # Save the patient (but don't commit to DB yet, to link the user)
+            patient = patientForm.save(commit=False)
+            patient.user = user
+            patient.assignedDoctorId = request.POST.get('assignedDoctorId')
+            patient.save()  # Save the patient object
+
+            # Add the user to the 'PATIENT' group
             my_patient_group = Group.objects.get_or_create(name='PATIENT')
             my_patient_group[0].user_set.add(user)
+            
+            # Send the professional email
+            send_mail(
+                subject='Welcome to Our Hospital Management System',
+                message=f"""
+                Dear {user.first_name} {user.last_name},
+                
+                We are pleased to inform you that your registration at our hospital has been successfully completed.
+                Your assigned doctor will review your profile shortly. You will be notified for further actions regarding your treatment.
+                
+                If you have any questions or require assistance, feel free to reach out to us at any time.
+                
+                Best regards,
+                Hospital Management Team
+                {settings.HOSPITAL_NAME}
+                Contact Us: {settings.HOSPITAL_CONTACT}
+                """,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[user.email],
+                fail_silently=False,
+            )
+
         return HttpResponseRedirect('patientlogin')
-    return render(request,'hospital/patientsignup.html',context=mydict)
-
-
+    
+    return render(request, 'hospital/patientsignup.html', context=mydict)
 
 
 
@@ -997,163 +1087,336 @@ def delete_appointment_view(request,pk):
 
 
 
+# #---------------------------------------------------------------------------------
+# #------------------------ PATIENT RELATED VIEWS START ------------------------------
+# #---------------------------------------------------------------------------------
+# @login_required(login_url='patientlogin')
+# @user_passes_test(is_patient)
+# def patient_dashboard_view(request):
+#     patient=models.Patient.objects.get(user_id=request.user.id)
+#     doctor=models.Doctor.objects.get(user_id=patient.assignedDoctor)
+#     mydict={
+#     'patient':patient,
+#     'doctorName':doctor.get_name,
+#     'doctorMobile':doctor.mobile,
+#     'doctorAddress':doctor.address,
+#     'symptoms':patient.symptoms,
+#     'doctorDepartment':doctor.department,
+#     'admitDate':patient.admitDate,
+#     }
+#     return render(request,'hospital/patient_dashboard.html',context=mydict)
+
+
+
+# @login_required(login_url='patientlogin')
+# @user_passes_test(is_patient)
+# def patient_appointment_view(request):
+#     patient=models.Patient.objects.get(user_id=request.user.id) #for profile picture of patient in sidebar
+#     return render(request,'hospital/patient_appointment.html',{'patient':patient})
+
+
+
+# @login_required(login_url='patientlogin')
+# @user_passes_test(is_patient)
+# def patient_book_appointment_view(request):
+#     appointmentForm=forms.PatientAppointmentForm()
+#     patient=models.Patient.objects.get(user_id=request.user.id) #for profile picture of patient in sidebar
+#     message=None
+#     mydict={'appointmentForm':appointmentForm,'patient':patient,'message':message}
+#     if request.method=='POST':
+#         appointmentForm=forms.PatientAppointmentForm(request.POST)
+#         if appointmentForm.is_valid():
+#             print(request.POST.get('doctorId'))
+#             desc=request.POST.get('description')
+
+#             doctor=models.Doctor.objects.get(user_id=request.POST.get('doctorId'))
+            
+#             if doctor.department == 'Cardiologist':
+#                 if 'heart' in desc:
+#                     pass
+#                 else:
+#                     print('else')
+#                     message="Please Choose Doctor According To Disease"
+#                     return render(request,'hospital/patient_book_appointment.html',{'appointmentForm':appointmentForm,'patient':patient,'message':message})
+
+
+#             if doctor.department == 'Dermatologists':
+#                 if 'skin' in desc:
+#                     pass
+#                 else:
+#                     print('else')
+#                     message="Please Choose Doctor According To Disease"
+#                     return render(request,'hospital/patient_book_appointment.html',{'appointmentForm':appointmentForm,'patient':patient,'message':message})
+
+#             if doctor.department == 'Emergency Medicine Specialists':
+#                 if 'fever' in desc:
+#                     pass
+#                 else:
+#                     print('else')
+#                     message="Please Choose Doctor According To Disease"
+#                     return render(request,'hospital/patient_book_appointment.html',{'appointmentForm':appointmentForm,'patient':patient,'message':message})
+
+#             if doctor.department == 'Allergists/Immunologists':
+#                 if 'allergy' in desc:
+#                     pass
+#                 else:
+#                     print('else')
+#                     message="Please Choose Doctor According To Disease"
+#                     return render(request,'hospital/patient_book_appointment.html',{'appointmentForm':appointmentForm,'patient':patient,'message':message})
+
+#             if doctor.department == 'Anesthesiologists':
+#                 if 'surgery' in desc:
+#                     pass
+#                 else:
+#                     print('else')
+#                     message="Please Choose Doctor According To Disease"
+#                     return render(request,'hospital/patient_book_appointment.html',{'appointmentForm':appointmentForm,'patient':patient,'message':message})
+
+#             if doctor.department == 'Colon and Rectal Surgeons':
+#                 if 'cancer' in desc:
+#                     pass
+#                 else:
+#                     print('else')
+#                     message="Please Choose Doctor According To Disease"
+#                     return render(request,'hospital/patient_book_appointment.html',{'appointmentForm':appointmentForm,'patient':patient,'message':message})
+
+
+
+
+
+#             appointment=appointmentForm.save(commit=False)
+#             appointment.doctorId=request.POST.get('doctorId')
+#             appointment.patientId=request.user.id #----user can choose any patient but only their info will be stored
+#             appointment.doctorName=models.User.objects.get(id=request.POST.get('doctorId')).first_name
+#             appointment.patientName=request.user.first_name #----user can choose any patient but only their info will be stored
+#             appointment.status=False
+#             appointment.save()
+#         return HttpResponseRedirect('patient-view-appointment')
+#     return render(request,'hospital/patient_book_appointment.html',context=mydict)
+
+
+
+
+
+# @login_required(login_url='patientlogin')
+# @user_passes_test(is_patient)
+# def patient_view_appointment_view(request):
+#     patient=models.Patient.objects.get(user_id=request.user.id) #for profile picture of patient in sidebar
+#     appointments=models.Appointment.objects.all().filter(patientId=request.user.id)
+#     return render(request,'hospital/patient_view_appointment.html',{'appointments':appointments,'patient':patient})
+
+
+
+# @login_required(login_url='patientlogin')
+# @user_passes_test(is_patient)
+# def patient_discharge_view(request):
+#     patient=models.Patient.objects.get(user_id=request.user.id) #for profile picture of patient in sidebar
+#     dischargeDetails=models.PatientDischargeDetails.objects.all().filter(patientId=patient.id).order_by('-id')[:1]
+#     patientDict=None
+#     if dischargeDetails:
+#         patientDict ={
+#         'is_discharged':True,
+#         'patient':patient,
+#         'patientId':patient.id,
+#         'patientName':patient.get_name,
+#         'assignedDoctorName':dischargeDetails[0].assignedDoctorName,
+#         'address':patient.address,
+#         'mobile':patient.mobile,
+#         'symptoms':patient.symptoms,
+#         'admitDate':patient.admitDate,
+#         'releaseDate':dischargeDetails[0].releaseDate,
+#         'daySpent':dischargeDetails[0].daySpent,
+#         'medicineCost':dischargeDetails[0].medicineCost,
+#         'roomCharge':dischargeDetails[0].roomCharge,
+#         'doctorFee':dischargeDetails[0].doctorFee,
+#         'OtherCharge':dischargeDetails[0].OtherCharge,
+#         'total':dischargeDetails[0].total,
+#         }
+#         print(patientDict)
+#     else:
+#         patientDict={
+#             'is_discharged':False,
+#             'patient':patient,
+#             'patientId':request.user.id,
+#         }
+#     return render(request,'hospital/patient_discharge.html',context=patientDict)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #---------------------------------------------------------------------------------
-#------------------------ PATIENT RELATED VIEWS START ------------------------------
+#------------------------ PATIENT RELATED VIEWS START ----------------------------
 #---------------------------------------------------------------------------------
+
+# @login_required(login_url='patientlogin')
+# @user_passes_test(is_patient)
+# def patient_dashboard_view(request):
+#     patient = models.Patient.objects.get(user_id=request.user.id)
+
+#     # ⚠️ POTENTIAL ISSUE:
+#     # The following line assumes 'assignedDoctor' is a user_id (ForeignKey to Doctor).
+#     # If your Patient model does not have a field 'assignedDoctor', this will raise an error:
+#     # 'Patient' object has no attribute 'assignedDoctor'
+#     # You might need to use 'assignedDoctorId' or just 'assignedDoctor' as a ForeignKey.
+#     doctor = models.Doctor.objects.get(user_id=patient.assignedDoctor)
+
+#     mydict = {
+#         'patient': patient,
+#         'doctorName': doctor.get_name,
+#         'doctorMobile': doctor.mobile,
+#         'doctorAddress': doctor.address,
+#         'symptoms': patient.symptoms,
+#         'doctorDepartment': doctor.department,
+#         'admitDate': patient.admitDate,
+#     }
+#     return render(request, 'hospital/patient_dashboard.html', context=mydict)
 @login_required(login_url='patientlogin')
 @user_passes_test(is_patient)
 def patient_dashboard_view(request):
-    patient=models.Patient.objects.get(user_id=request.user.id)
-    doctor=models.Doctor.objects.get(user_id=patient.assignedDoctorId)
-    mydict={
-    'patient':patient,
-    'doctorName':doctor.get_name,
-    'doctorMobile':doctor.mobile,
-    'doctorAddress':doctor.address,
-    'symptoms':patient.symptoms,
-    'doctorDepartment':doctor.department,
-    'admitDate':patient.admitDate,
+    patient = models.Patient.objects.get(user_id=request.user.id)
+
+    # Fetch the assigned doctor from the ForeignKey
+    doctor = patient.assignedDoctor  # This will give you the Doctor object directly
+
+    # Prepare the context
+    mydict = {
+        'patient': patient,
+        'doctorName': doctor.get_name if doctor else "Not Assigned",  # Handle the case where doctor might be None
+        'doctorMobile': doctor.mobile if doctor else "N/A",
+        'doctorAddress': doctor.address if doctor else "N/A",
+        'symptoms': patient.symptoms,
+        'doctorDepartment': doctor.department if doctor else "N/A",
+        'admitDate': patient.admitDate,
     }
-    return render(request,'hospital/patient_dashboard.html',context=mydict)
+
+    return render(request, 'hospital/patient_dashboard.html', context=mydict)
+
+
+
 
 
 
 @login_required(login_url='patientlogin')
 @user_passes_test(is_patient)
 def patient_appointment_view(request):
-    patient=models.Patient.objects.get(user_id=request.user.id) #for profile picture of patient in sidebar
-    return render(request,'hospital/patient_appointment.html',{'patient':patient})
-
+    patient = models.Patient.objects.get(user_id=request.user.id)  # for profile picture of patient in sidebar
+    return render(request, 'hospital/patient_appointment.html', {'patient': patient})
 
 
 @login_required(login_url='patientlogin')
 @user_passes_test(is_patient)
 def patient_book_appointment_view(request):
-    appointmentForm=forms.PatientAppointmentForm()
-    patient=models.Patient.objects.get(user_id=request.user.id) #for profile picture of patient in sidebar
-    message=None
-    mydict={'appointmentForm':appointmentForm,'patient':patient,'message':message}
-    if request.method=='POST':
-        appointmentForm=forms.PatientAppointmentForm(request.POST)
+    appointmentForm = forms.PatientAppointmentForm()
+    patient = models.Patient.objects.get(user_id=request.user.id)  # for profile picture of patient in sidebar
+    message = None
+    mydict = {'appointmentForm': appointmentForm, 'patient': patient, 'message': message}
+
+    if request.method == 'POST':
+        appointmentForm = forms.PatientAppointmentForm(request.POST)
         if appointmentForm.is_valid():
             print(request.POST.get('doctorId'))
-            desc=request.POST.get('description')
+            desc = request.POST.get('description')
 
-            doctor=models.Doctor.objects.get(user_id=request.POST.get('doctorId'))
-            
-            if doctor.department == 'Cardiologist':
-                if 'heart' in desc:
-                    pass
-                else:
-                    print('else')
-                    message="Please Choose Doctor According To Disease"
-                    return render(request,'hospital/patient_book_appointment.html',{'appointmentForm':appointmentForm,'patient':patient,'message':message})
+            doctor = models.Doctor.objects.get(user_id=request.POST.get('doctorId'))
 
+            # 🔍 Disease-to-department validation logic
+            if doctor.department == 'Cardiologist' and 'heart' not in desc:
+                message = "Please Choose Doctor According To Disease"
+                return render(request, 'hospital/patient_book_appointment.html', mydict)
 
-            if doctor.department == 'Dermatologists':
-                if 'skin' in desc:
-                    pass
-                else:
-                    print('else')
-                    message="Please Choose Doctor According To Disease"
-                    return render(request,'hospital/patient_book_appointment.html',{'appointmentForm':appointmentForm,'patient':patient,'message':message})
+            if doctor.department == 'Dermatologists' and 'skin' not in desc:
+                message = "Please Choose Doctor According To Disease"
+                return render(request, 'hospital/patient_book_appointment.html', mydict)
 
-            if doctor.department == 'Emergency Medicine Specialists':
-                if 'fever' in desc:
-                    pass
-                else:
-                    print('else')
-                    message="Please Choose Doctor According To Disease"
-                    return render(request,'hospital/patient_book_appointment.html',{'appointmentForm':appointmentForm,'patient':patient,'message':message})
+            if doctor.department == 'Emergency Medicine Specialists' and 'fever' not in desc:
+                message = "Please Choose Doctor According To Disease"
+                return render(request, 'hospital/patient_book_appointment.html', mydict)
 
-            if doctor.department == 'Allergists/Immunologists':
-                if 'allergy' in desc:
-                    pass
-                else:
-                    print('else')
-                    message="Please Choose Doctor According To Disease"
-                    return render(request,'hospital/patient_book_appointment.html',{'appointmentForm':appointmentForm,'patient':patient,'message':message})
+            if doctor.department == 'Allergists/Immunologists' and 'allergy' not in desc:
+                message = "Please Choose Doctor According To Disease"
+                return render(request, 'hospital/patient_book_appointment.html', mydict)
 
-            if doctor.department == 'Anesthesiologists':
-                if 'surgery' in desc:
-                    pass
-                else:
-                    print('else')
-                    message="Please Choose Doctor According To Disease"
-                    return render(request,'hospital/patient_book_appointment.html',{'appointmentForm':appointmentForm,'patient':patient,'message':message})
+            if doctor.department == 'Anesthesiologists' and 'surgery' not in desc:
+                message = "Please Choose Doctor According To Disease"
+                return render(request, 'hospital/patient_book_appointment.html', mydict)
 
-            if doctor.department == 'Colon and Rectal Surgeons':
-                if 'cancer' in desc:
-                    pass
-                else:
-                    print('else')
-                    message="Please Choose Doctor According To Disease"
-                    return render(request,'hospital/patient_book_appointment.html',{'appointmentForm':appointmentForm,'patient':patient,'message':message})
+            if doctor.department == 'Colon and Rectal Surgeons' and 'cancer' not in desc:
+                message = "Please Choose Doctor According To Disease"
+                return render(request, 'hospital/patient_book_appointment.html', mydict)
 
-
-
-
-
-            appointment=appointmentForm.save(commit=False)
-            appointment.doctorId=request.POST.get('doctorId')
-            appointment.patientId=request.user.id #----user can choose any patient but only their info will be stored
-            appointment.doctorName=models.User.objects.get(id=request.POST.get('doctorId')).first_name
-            appointment.patientName=request.user.first_name #----user can choose any patient but only their info will be stored
-            appointment.status=False
+            # ✅ Saving appointment
+            appointment = appointmentForm.save(commit=False)
+            appointment.doctorId = request.POST.get('doctorId')
+            appointment.patientId = request.user.id
+            appointment.doctorName = models.User.objects.get(id=request.POST.get('doctorId')).first_name
+            appointment.patientName = request.user.first_name
+            appointment.status = False
             appointment.save()
-        return HttpResponseRedirect('patient-view-appointment')
-    return render(request,'hospital/patient_book_appointment.html',context=mydict)
 
+            return HttpResponseRedirect('patient-view-appointment')
 
-
+    return render(request, 'hospital/patient_book_appointment.html', context=mydict)
 
 
 @login_required(login_url='patientlogin')
 @user_passes_test(is_patient)
 def patient_view_appointment_view(request):
-    patient=models.Patient.objects.get(user_id=request.user.id) #for profile picture of patient in sidebar
-    appointments=models.Appointment.objects.all().filter(patientId=request.user.id)
-    return render(request,'hospital/patient_view_appointment.html',{'appointments':appointments,'patient':patient})
-
+    patient = models.Patient.objects.get(user_id=request.user.id)  # for profile picture of patient in sidebar
+    appointments = models.Appointment.objects.filter(patientId=request.user.id)
+    return render(request, 'hospital/patient_view_appointment.html', {'appointments': appointments, 'patient': patient})
 
 
 @login_required(login_url='patientlogin')
 @user_passes_test(is_patient)
 def patient_discharge_view(request):
-    patient=models.Patient.objects.get(user_id=request.user.id) #for profile picture of patient in sidebar
-    dischargeDetails=models.PatientDischargeDetails.objects.all().filter(patientId=patient.id).order_by('-id')[:1]
-    patientDict=None
+    patient = models.Patient.objects.get(user_id=request.user.id)  # for profile picture of patient in sidebar
+    dischargeDetails = models.PatientDischargeDetails.objects.filter(patientId=patient.id).order_by('-id')[:1]
+    patientDict = None
+
     if dischargeDetails:
-        patientDict ={
-        'is_discharged':True,
-        'patient':patient,
-        'patientId':patient.id,
-        'patientName':patient.get_name,
-        'assignedDoctorName':dischargeDetails[0].assignedDoctorName,
-        'address':patient.address,
-        'mobile':patient.mobile,
-        'symptoms':patient.symptoms,
-        'admitDate':patient.admitDate,
-        'releaseDate':dischargeDetails[0].releaseDate,
-        'daySpent':dischargeDetails[0].daySpent,
-        'medicineCost':dischargeDetails[0].medicineCost,
-        'roomCharge':dischargeDetails[0].roomCharge,
-        'doctorFee':dischargeDetails[0].doctorFee,
-        'OtherCharge':dischargeDetails[0].OtherCharge,
-        'total':dischargeDetails[0].total,
+        patientDict = {
+            'is_discharged': True,
+            'patient': patient,
+            'patientId': patient.id,
+            'patientName': patient.get_name,
+            'assignedDoctorName': dischargeDetails[0].assignedDoctorName,
+            'address': patient.address,
+            'mobile': patient.mobile,
+            'symptoms': patient.symptoms,
+            'admitDate': patient.admitDate,
+            'releaseDate': dischargeDetails[0].releaseDate,
+            'daySpent': dischargeDetails[0].daySpent,
+            'medicineCost': dischargeDetails[0].medicineCost,
+            'roomCharge': dischargeDetails[0].roomCharge,
+            'doctorFee': dischargeDetails[0].doctorFee,
+            'OtherCharge': dischargeDetails[0].OtherCharge,
+            'total': dischargeDetails[0].total,
         }
         print(patientDict)
     else:
-        patientDict={
-            'is_discharged':False,
-            'patient':patient,
-            'patientId':request.user.id,
+        patientDict = {
+            'is_discharged': False,
+            'patient': patient,
+            'patientId': request.user.id,
         }
-    return render(request,'hospital/patient_discharge.html',context=patientDict)
 
+    return render(request, 'hospital/patient_discharge.html', context=patientDict)
 
 #------------------------ PATIENT RELATED VIEWS END ------------------------------
 #---------------------------------------------------------------------------------
+
+# #------------------------ PATIENT RELATED VIEWS END ------------------------------
+# #---------------------------------------------------------------------------------
 
 
 
