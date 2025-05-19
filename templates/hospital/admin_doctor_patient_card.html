@@ -4,86 +4,875 @@
 
 <head>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  
   <style>
-    .card {
-      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-      max-width: 300px;
-      margin: auto;
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Reuse and Core Styles */
+    .section {
+      padding: 50px 20px;
       text-align: center;
-      font-family: arial;
+    }
+
+    .section h2 {
+      font-size: 28px;
+      color: #222;
+      margin-bottom: 10px;
+    }
+
+    .section p.subtitle {
+      color: #666;
+      margin-bottom: 40px;
+    }
+
+    /* Card Layout */
+    .grid-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 40px;
+    }
+
+    .card {
+      background-color: white;
+      width: 340px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .card img {
+      width: 100%;
+      height: 310px;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover img {
+      transform: scale(1.05);
     }
 
     .title {
-      color: grey;
-      font-size: 18px;
+      font-size: 24px;
+      color: #222;
+      margin: 15px 0 5px;
+      font-weight: bold;
+    }
+
+    .desc {
+      color: #555;
+      font-size: 16px;
+      margin: 0 15px 15px;
+      min-height: 60px;
     }
 
     button {
       border: none;
-      outline: 0;
-      display: inline-block;
-      padding: 8px;
+      background-color: #007bff;
       color: white;
-      background-color: #000;
-      text-align: center;
-      cursor: pointer;
+      padding: 14px 0;
       width: 100%;
-      font-size: 18px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
     }
 
-    button:hover,
-    a:hover {
-      opacity: 0.7;
-    }
-
-    .grid-container {
-      display: grid;
-      grid-template-columns: auto auto auto;
-      padding: 10px;
-    }
-
-    a:link {
-      text-decoration: none;
+    button:hover {
+      background-color: #0056b3;
     }
 
     a {
+      text-decoration: none;
       color: white;
+    }
+
+    /* Health Tips Section */
+    .tips-section {
+      margin-top: 60px;
+      background: #fff;
+      padding: 40px 20px;
+      border-radius: 12px;
+      max-width: 1000px;
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    .tips-section h3 {
+      margin-bottom: 30px;
+      font-size: 24px;
+      color: #333;
+    }
+
+    .tips-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+    }
+
+    .tip-card {
+      background: #f1f8ff;
+      border-left: 5px solid #007bff;
+      border-radius: 8px;
+      padding: 20px;
+      width: 280px;
+      transition: 0.3s ease;
+      text-align: left;
+    }
+
+    .tip-card:hover {
+      background: #e2f0ff;
+      transform: scale(1.03);
+    }
+
+    .tip-card i {
+      color: #007bff;
+      margin-right: 10px;
+      font-size: 20px;
+    }
+
+    .tip-card p {
+      margin: 10px 0 0;
+      font-size: 15px;
+      color: #444;
+    }
+
+    /* Services Section */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 30px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .service-card {
+      background: #ffffff;
+      border-radius: 10px;
+      padding: 25px 15px;
+      box-shadow: 0 5px 12px rgba(0, 0, 0, 0.1);
+      transition: 0.3s ease;
+    }
+
+    .service-card:hover {
+      background: #e8f2ff;
+      transform: translateY(-5px);
+    }
+
+    .service-card i {
+      font-size: 36px;
+      color: #007bff;
+      margin-bottom: 12px;
+    }
+
+    .service-card h4 {
+      margin: 10px 0 8px;
+      font-size: 18px;
+      color: #222;
+    }
+
+    .service-card p {
+      color: #555;
+      font-size: 14px;
+    }
+
+    /* Why Choose Us Section */
+    .why-choose-us {
+  padding: 50px 20px;
+  background-color: #f8f8f8;
+  text-align: center;
+}
+
+.why-choose-us h2 {
+  font-size: 32px;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+  padding: 10px;
+}
+
+.feature-card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  padding: 25px 15px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.feature-card i {
+  font-size: 36px;
+  color: #1e90ff;
+  margin-bottom: 15px;
+}
+
+.feature-card h4 {
+  font-size: 20px;
+  color: #222;
+  margin-bottom: 10px;
+}
+
+.feature-card p {
+  font-size: 14px;
+  color: #555;
+}
+/* Section base */
+.health-tips-section {
+  max-width: 1100px;
+  margin: 0 auto 70px auto;
+  padding: 60px 20px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  color: #2c3e50;
+  background-color: #fefefe;
+  text-align: center;
+}
+
+/* Main heading */
+.health-tips-section h2 {
+  font-weight: 700;
+  font-size: 2.8rem;
+  margin-bottom: 45px;
+  letter-spacing: 1.2px;
+  color: #1e3a8a; /* deep blue accent */
+}
+
+/* Grid layout shared */
+.tips-grid {
+  display: grid;
+  gap: 28px;
+  margin-bottom: 50px;
+  padding: 0 15px;
+}
+
+/* Blog teasers have 3 columns on desktop, auto-fit on mobile */
+.blog-teasers {
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+}
+
+/* Quick tips smaller cards, 5 columns on wide, stack on small screens */
+.quick-tips {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
+/* Card base */
+.tip-card {
+  background: linear-gradient(135deg, #f5f7fa, #e0e5ec);
+  border-radius: 14px;
+  padding: 30px 20px 35px;
+  box-shadow:
+    0 8px 15px rgba(0, 0, 0, 0.07),
+    inset 0 -3px 6px rgba(255, 255, 255, 0.6);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+  cursor: default;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.tip-card:hover {
+  transform: translateY(-10px);
+  box-shadow:
+    0 20px 35px rgba(0, 0, 0, 0.15),
+    inset 0 -3px 6px rgba(255, 255, 255, 0.8);
+}
+
+/* Smaller quick tip cards */
+.tip-card.small {
+  padding: 20px 15px;
+  font-size: 0.9rem;
+  min-height: 140px;
+  justify-content: flex-start;
+}
+
+/* Icons */
+.tip-card i {
+  font-size: 40px;
+  color: #1e3a8a;
+  margin-bottom: 18px;
+  line-height: 1;
+}
+
+/* Blog teaser titles */
+.tip-card h4 {
+  font-weight: 600;
+  font-size: 1.3rem;
+  margin-bottom: 12px;
+  color: #1a2935;
+}
+
+/* Paragraph */
+.tip-card p {
+  font-weight: 400;
+  color: #4f5b66;
+  line-height: 1.45;
+  margin-bottom: 20px;
+  max-width: 280px;
+}
+
+/* Read More link */
+.tip-card a {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #1e3a8a;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.3s ease;
+  align-self: flex-start;
+}
+
+.tip-card a:hover {
+  border-color: #1e3a8a;
+}
+
+/* Section divider line */
+.section-divider {
+  border: none;
+  border-top: 2px solid #d1d9e6;
+  width: 80%;
+  margin: 0 auto 55px auto;
+}
+
+
+.testimonials-section {
+  max-width: 1100px;
+  margin: 70px auto;
+  padding: 50px 20px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  text-align: center;
+  color: #2c3e50;
+}
+
+.testimonials-section h2 {
+  font-weight: 700;
+  font-size: 2.8rem;
+  margin-bottom: 40px;
+  color: #1e3a8a;
+}
+
+/* Slider container and track */
+.testimonial-slider {
+  overflow: hidden;
+  position: relative;
+}
+
+.testimonial-track {
+  display: flex;
+  width: calc(5 * 33.3333%); /* 5 cards times 33.33% width each */
+  animation: slideTestimonial 25s linear infinite;
+}
+
+/* Each testimonial card */
+.testimonial-card {
+  background: #f5f7fa;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  padding: 25px 20px 35px;
+  margin: 0 10px;
+  flex: 0 0 33.3333%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: transform 0.3s ease;
+  cursor: default;
+}
+
+.testimonial-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Patient image */
+.testimonial-card img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 15px;
+  border: 3px solid #1e3a8a;
+}
+
+/* Patient name */
+.testimonial-card h4 {
+  font-weight: 600;
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+  color: #1e3a8a;
+}
+
+/* Stars */
+.stars {
+  color: #f5a623; /* gold */
+  margin-bottom: 18px;
+  font-size: 18px;
+  line-height: 1;
+}
+
+/* Testimonial text */
+.testimonial-card p {
+  font-style: italic;
+  font-weight: 400;
+  color: #4f5b66;
+  line-height: 1.5;
+  max-width: 270px;
+}
+
+
+
+.health-calculators {
+  max-width: 900px;
+  margin: 70px auto;
+  padding: 40px 20px;
+  font-family: Arial, sans-serif;
+  color: #1e3a8a;
+  text-align: center;
+}
+
+.health-calculators h2 {
+  font-size: 2.6rem;
+  margin-bottom: 35px;
+  font-weight: 700;
+  letter-spacing: 1.1px;
+}
+
+.calculator-cards {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.calculator-card {
+  background: #f5f7fa;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  padding: 25px 30px;
+  width: 320px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.calculator-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+.calculator-card h3 {
+  margin-bottom: 20px;
+  color: #1e3a8a;
+}
+
+.calculator-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  text-align: left;
+}
+
+.calculator-card label {
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.calculator-card input {
+  padding: 8px 10px;
+  font-size: 1rem;
+  border: 1.8px solid #ccc;
+  border-radius: 6px;
+  transition: border-color 0.3s ease;
+}
+
+.calculator-card input:focus {
+  outline: none;
+  border-color: #1e3a8a;
+}
+
+.calculator-card button {
+  background-color: #1e3a8a;
+  color: white;
+  font-size: 1.1rem;
+  padding: 10px 0;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.calculator-card button:hover {
+  background-color: #163270;
+}
+
+.bmi-result {
+  margin-top: 18px;
+  font-weight: 600;
+  font-size: 1.15rem;
+  color: #2c3e50;
+}
+
+.calculator-card.placeholder {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #5472d3;
+  font-style: italic;
+  gap: 12px;
+}
+
+
+/* Animation to slide the testimonial track */
+@keyframes slideTestimonial {
+  0% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-33.3333%);
+  }
+  45% {
+    transform: translateX(-33.3333%);
+  }
+  50% {
+    transform: translateX(-66.6666%);
+  }
+  70% {
+    transform: translateX(-66.6666%);
+  }
+  75% {
+    transform: translateX(-100%);
+  }
+  95% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+/* Responsive: 1 card on mobile */
+@media (max-width: 768px) {
+  .testimonial-track {
+    width: calc(5 * 100%);
+  }
+  .testimonial-card {
+    flex: 0 0 100%;
+    margin: 0 15px;
+  }
+}
+
+
+    @media (max-width: 1000px) {
+      .grid-container {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .tips-grid {
+        flex-direction: column;
+        align-items: center;
+      }
     }
   </style>
 </head>
 
 <body>
 
+  <!-- Cards Section -->
+  <div class="section">
+    <h2>Explore Our Portals</h2>
+    <p class="subtitle">Choose your role to access tailored healthcare services and tools.</p>
 
-
-  <div class="grid-container">
-    <div class="grid-item">
+    <div class="grid-container">
       <div class="card">
-        <img src="{% static "images/admin.png" %}" alt="John" style="width:100%">
+        <img src="{% static 'images/admin3.jpg' %}" alt="Admin">
         <p class="title">ADMIN</p>
+        <p class="desc">Manage doctors, patients, and appointments with full access to hospital data.</p>
         <p><button><a href="/adminclick">View</a></button></p>
       </div>
 
-    </div>
-
-    <div class="grid-item">
       <div class="card">
-        <img src="{% static "images/doctor.png" %}" alt="John" style="width:100%">
+        <img src="{% static 'images/doctor2..png' %}" alt="Doctor">
         <p class="title">DOCTOR</p>
+        <p class="desc">Access patient records, schedules, and clinical management tools with ease.</p>
         <p><button><a href="/doctorclick">View</a></button></p>
       </div>
-    </div>
 
-    <div class="grid-item">
       <div class="card">
-        <img src="{% static "images/patient.jpg" %}" alt="John" style="width:100%">
+        <img src="{% static 'images/patient1.jpg' %}" alt="Patient">
         <p class="title">PATIENT</p>
+        <p class="desc">Book appointments, view reports, and connect with your doctor securely.</p>
         <p><button><a href="/patientclick">View</a></button></p>
       </div>
     </div>
+  </div>
+
+  <!-- Our Services Section -->
+  <div class="section" style="background-color: #eef6fb;">
+    <h2>Our Services</h2>
+    <p class="subtitle">Specialized departments offering expert care</p>
+   <div class="services-grid">
+  <div class="service-card">
+    <i class="fa fa-heartbeat"></i>
+    <h4>Cardiology</h4>
+    <p>Advanced heart care and monitoring by top cardiologists.</p>
+  </div>
+  <div class="service-card">
+    <i class="fa fa-user-md"></i>
+    <h4>Orthopedics</h4>
+    <p>Treatment of bone, joint, and muscle conditions.</p>
+  </div>
+  <div class="service-card">
+    <i class="fa fa-child"></i>
+    <h4>Pediatrics</h4>
+    <p>Dedicated child care and pediatric specialties.</p>
+  </div>
+  <div class="service-card">
+    <i class="fa fa-plus-square"></i>
+    <h4>Emergency</h4>
+    <p>24/7 emergency response and trauma services.</p>
+  </div>
+  <div class="service-card">
+    <i class="fa fa-eye"></i>
+    <h4>Ophthalmology</h4>
+    <p>Comprehensive eye exams and surgical treatments.</p>
+  </div>
+  <div class="service-card">
+    <i class="fa fa-flask"></i>
+    <h4>Diagnostics</h4>
+    <p>Modern labs offering fast and accurate results.</p>
+  </div>
+  <div class="service-card">
+    <i class="fa fa-medkit"></i> <!-- Substitute for Neurology -->
+    <h4>Neurology</h4>
+    <p>Expert care for brain, spine, and nervous system disorders.</p>
+  </div>
+  <div class="service-card">
+    <i class="fa fa-stethoscope"></i> <!-- Substitute for Pathology -->
+    <h4>Pathology</h4>
+    <p>Accurate lab testing and diagnostics for clinical decisions.</p>
+  </div>
+</div>
+
 
   </div>
- 
+
+  <!-- Why Choose Us Section -->
+  <div class="why-choose-us">
+  <h2>Why Choose Us</h2>
+  <div class="features-grid">
+    <div class="feature-card">
+      <i class="fa fa-clock-o"></i>
+      <h4>24/7 Service</h4>
+      <p>Round-the-clock medical support, emergency access, and care anytime you need.</p>
+    </div>
+    <div class="feature-card">
+      <i class="fa fa-flask"></i>
+      <h4>Modern Labs</h4>
+      <p>Equipped with cutting-edge diagnostic tools for accurate and fast reports.</p>
+    </div>
+    <div class="feature-card">
+      <i class="fa fa-user-md"></i>
+      <h4>Experienced Doctors</h4>
+      <p>Highly qualified and compassionate professionals dedicated to your health.</p>
+    </div>
+  </div>
+</div>
+<!-- Health Tips Section -->
+<section class="health-tips-section">
+  <h2>Health Tips & Precautions</h2>
+
+  <!-- Blog Teasers -->
+  <div class="tips-grid blog-teasers">
+    <div class="tip-card">
+      <i class="fa fa-heartbeat" aria-hidden="true"></i>
+      <h4>5 Tips for Heart Health</h4>
+      <p>Maintain a balanced diet, stay active, manage stress, and keep regular checkups to ensure a healthy heart.</p>
+      <a href="#" aria-label="Read more about heart health tips">Read More</a>
+    </div>
+    <div class="tip-card">
+      <i class="fa fa-snowflake-o" aria-hidden="true"></i>
+      <h4>Staying Fit in Winter</h4>
+      <p>Boost immunity, stay warm, eat seasonal fruits, and maintain indoor workouts to stay fit during cold months.</p>
+      <a href="#" aria-label="Read more about winter fitness tips">Read More</a>
+    </div>
+    <div class="tip-card">
+      <i class="fa fa-stethoscope" aria-hidden="true"></i>
+      <h4>Importance of Regular Checkups</h4>
+      <p>Detect early symptoms and stay updated on your health status with scheduled medical visits.</p>
+      <a href="#" aria-label="Read more about regular checkups">Read More</a>
+    </div>
+  </div>
+
+  <hr class="section-divider" />
+
+  <!-- Quick Tips -->
+  <div class="tips-grid quick-tips">
+    <div class="tip-card small">
+      <i class="fa fa-stethoscope" aria-hidden="true"></i>
+      <p>Visit your doctor regularly for checkups — prevention is better than cure.</p>
+    </div>
+    <div class="tip-card small">
+      <i class="fa fa-hand-paper-o" aria-hidden="true"></i>
+      <p>Wash your hands frequently to prevent the spread of bacteria and viruses.</p>
+    </div>
+    <div class="tip-card small">
+      <i class="fa fa-heartbeat" aria-hidden="true"></i>
+      <p>Maintain a balanced diet and stay physically active for better heart health.</p>
+    </div>
+    <div class="tip-card small">
+      <i class="fa fa-user-md" aria-hidden="true"></i>
+      <p>Always follow your doctor’s prescriptions and advice for ongoing treatments.</p>
+    </div>
+    <div class="tip-card small">
+      <i class="fa fa-shield" aria-hidden="true"></i>
+      <p>Get vaccinated to protect yourself and others from infectious diseases.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="testimonials-section">
+  <h2>What Our Patients Say</h2>
+  <div class="testimonial-slider">
+    <div class="testimonial-track">
+      <!-- Testimonial 1 -->
+      <div class="testimonial-card">
+        <img src="{% static 'images/patient11.jpg' %}" alt="Patient Jane Doe" />
+        <h4>RAMU</h4>
+        <div class="stars">
+          <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-o"></i>
+        </div>
+        <p>"The doctors and staff were very caring and professional. I felt well taken care of throughout my treatment."</p>
+      </div>
+      <!-- Testimonial 2 -->
+      <div class="testimonial-card">
+        <img src="{% static 'images/patient12.jpg' %}" alt="Patient John Smith" />
+        <h4>SIMRAN</h4>
+        <div class="stars">
+          <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+        </div>
+        <p>"State-of-the-art facilities and prompt services. I highly recommend this hospital to everyone."</p>
+      </div>
+      <!-- Testimonial 3 -->
+      <div class="testimonial-card">
+        <img src="{% static 'images/patient13.jpg' %}" alt="Patient Lisa Ray" />
+        <h4>JIYA Kapoor</h4>
+        <div class="stars">
+          <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-o"></i><i class="fa fa-star-o"></i>
+        </div>
+        <p>"Friendly staff and very attentive doctors. The entire experience was comforting and reassuring."</p>
+      </div>
+      <!-- Testimonial 4 (repeat first) -->
+      <div class="testimonial-card">
+        <img src="{% static 'images/patient14.jpg' %}" alt="Patient Jane Doe" />
+        <h4>Rameshwari</h4>
+        <div class="stars">
+          <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star-half-o"></i>
+        </div>
+        <p>"The doctors and staff were very caring and professional. I felt well taken care of throughout my treatment."</p>
+      </div>
+      <!-- Testimonial 5 (repeat second) -->
+      <div class="testimonial-card">
+        <img src="{% static 'images/patient15.jpg' %}" alt="Patient John Smith" />
+        <h4>Sunanda</h4>
+        <div class="stars">
+          <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+        </div>
+        <p>"State-of-the-art facilities and prompt services. I highly recommend this hospital to everyone."</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Health Calculator Section -->
+<section class="health-calculators">
+  <h2>Health Calculator Widgets</h2>
+  <div class="calculator-cards">
+
+    <!-- BMI Calculator -->
+    <div class="calculator-card">
+      <h3>BMI Calculator</h3>
+      <form id="bmi-form" onsubmit="return false;">
+        <label for="weight">Weight (kg):</label>
+        <input type="number" id="weight" min="1" required placeholder="e.g., 70" />
+        <label for="height">Height (cm):</label>
+        <input type="number" id="height" min="30" required placeholder="e.g., 170" />
+        <button type="button" onclick="calculateBMI()">Calculate</button>
+      </form>
+      <div id="bmi-result" class="bmi-result"></div>
+    </div>
+
+    <!-- Placeholder for more calculators -->
+    <div class="calculator-card placeholder">
+      <h3>Coming Soon</h3>
+      <p>More health calculators like Blood Pressure, Calorie Intake, etc.</p>
+      <i class="fa fa-heartbeat fa-3x" style="color:#1e3a8a;"></i>
+    </div>
+
+  </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+<script>
+  function calculateBMI() {
+    const weight = parseFloat(document.getElementById('weight').value);
+    const heightCm = parseFloat(document.getElementById('height').value);
+    
+    if (!weight || !heightCm) {
+      alert("Please enter valid weight and height!");
+      return;
+    }
+
+    const heightM = heightCm / 100;
+    const bmi = weight / (heightM * heightM);
+    let category = '';
+
+    if (bmi < 18.5) category = 'Underweight';
+    else if (bmi < 25) category = 'Normal weight';
+    else if (bmi < 30) category = 'Overweight';
+    else category = 'Obese';
+
+    const resultDiv = document.getElementById('bmi-result');
+    resultDiv.textContent = `Your BMI is ${bmi.toFixed(1)} (${category}).`;
+  }
+</script>
+
 
 </body>
 
