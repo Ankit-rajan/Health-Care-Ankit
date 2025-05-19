@@ -19,6 +19,8 @@ from django.views.generic import View
 from django.contrib.auth.forms import AuthenticationForm
 # Import necessary views
 from hospital import views  # This imports the views.py file
+from .forms import PatientUserForm, PatientForm
+from hospital import views
 
 
 
@@ -742,32 +744,98 @@ def update_patient_view(request,pk):
 
 
 
+# @login_required(login_url='adminlogin')
+# @user_passes_test(is_admin)
+# def admin_add_patient_view(request):
+#     userForm=forms.PatientUserForm()
+#     patientForm=forms.PatientForm()
+#     mydict={'userForm':userForm,'patientForm':patientForm}
+#     if request.method=='POST':
+#         userForm=forms.PatientUserForm(request.POST)
+#         patientForm=forms.PatientForm(request.POST,request.FILES)
+#         if userForm.is_valid() and patientForm.is_valid():
+#             user=userForm.save()
+#             user.set_password(user.password)
+#             user.save()
+
+#             patient=patientForm.save(commit=False)
+#             patient.user=user
+#             patient.status=True
+#             patient.assignedDoctorId=request.POST.get('assignedDoctorId')
+#             patient.save()
+
+#             my_patient_group = Group.objects.get_or_create(name='PATIENT')
+#             my_patient_group[0].user_set.add(user)
+
+#         return HttpResponseRedirect('admin-view-patient')
+#     return render(request,'hospital/admin_add_patient.html',context=mydict)
+
+
+
+
+
+# @login_required(login_url='adminlogin')
+# @user_passes_test(is_admin)
+# def admin_add_patient_view(request):
+#     userForm = PatientUserForm()
+#     patientForm = PatientForm()
+#     mydict = {'userForm': userForm, 'patientForm': patientForm}
+#     if request.method == 'POST':
+#         userForm = PatientUserForm(request.POST)
+#         patientForm = PatientForm(request.POST, request.FILES)
+#         if userForm.is_valid() and patientForm.is_valid():
+#             user = userForm.save()
+#             user.set_password(user.password)
+#             user.save()
+
+#             patient = patientForm.save(commit=False)
+#             patient.user = user
+#             patient.status = True
+#             # patient.assignedDoctor is already set by patientForm.save() override
+#             patient.save()
+
+#             my_patient_group = Group.objects.get_or_create(name='PATIENT')
+#             my_patient_group[0].user_set.add(user)
+
+#             return HttpResponseRedirect('admin-view-patient')
+#     return render(request, 'hospital/admin_add_patient.html', context=mydict)
+
+
+
+
+
 @login_required(login_url='adminlogin')
 @user_passes_test(is_admin)
 def admin_add_patient_view(request):
-    userForm=forms.PatientUserForm()
-    patientForm=forms.PatientForm()
-    mydict={'userForm':userForm,'patientForm':patientForm}
-    if request.method=='POST':
-        userForm=forms.PatientUserForm(request.POST)
-        patientForm=forms.PatientForm(request.POST,request.FILES)
+    userForm = PatientUserForm()
+    patientForm = PatientForm()
+    mydict = {'userForm': userForm, 'patientForm': patientForm}
+    
+    if request.method == 'POST':
+        userForm = PatientUserForm(request.POST)
+        patientForm = PatientForm(request.POST, request.FILES)
+        
         if userForm.is_valid() and patientForm.is_valid():
-            user=userForm.save()
+            user = userForm.save(commit=False)
             user.set_password(user.password)
             user.save()
 
-            patient=patientForm.save(commit=False)
-            patient.user=user
-            patient.status=True
-            patient.assignedDoctorId=request.POST.get('assignedDoctorId')
+            patient = patientForm.save(commit=False)
+            patient.user = user
+            patient.status = True
+            
+            # Manually assign assignedDoctor here:
+            assigned_doctor = patientForm.cleaned_data.get('assignedDoctorId')
+            patient.assignedDoctor = assigned_doctor
+            
             patient.save()
 
             my_patient_group = Group.objects.get_or_create(name='PATIENT')
             my_patient_group[0].user_set.add(user)
 
-        return HttpResponseRedirect('admin-view-patient')
-    return render(request,'hospital/admin_add_patient.html',context=mydict)
-
+            return HttpResponseRedirect('admin-view-patient')
+    
+    return render(request, 'hospital/admin_add_patient.html', context=mydict)
 
 
 #------------------FOR APPROVING PATIENT BY ADMIN----------------------
@@ -810,52 +878,128 @@ def admin_discharge_patient_view(request):
 
 
 
+# @login_required(login_url='adminlogin')
+# @user_passes_test(is_admin)
+# def discharge_patient_view(request,pk):
+#     patient=models.Patient.objects.get(id=pk)
+#     days=(date.today()-patient.admitDate) #2 days, 0:00:00
+#     assignedDoctor=models.User.objects.all().filter(id=patient.assignedDoctorId)
+#     d=days.days # only how many day that is 2
+#     patientDict={
+#         'patientId':pk,
+#         'name':patient.get_name,
+#         'mobile':patient.mobile,
+#         'address':patient.address,
+#         'symptoms':patient.symptoms,
+#         'admitDate':patient.admitDate,
+#         'todayDate':date.today(),
+#         'day':d,
+#         'assignedDoctorName':assignedDoctor[0].first_name,
+#     }
+#     if request.method == 'POST':
+#         feeDict ={
+#             'roomCharge':int(request.POST['roomCharge'])*int(d),
+#             'doctorFee':request.POST['doctorFee'],
+#             'medicineCost' : request.POST['medicineCost'],
+#             'OtherCharge' : request.POST['OtherCharge'],
+#             'total':(int(request.POST['roomCharge'])*int(d))+int(request.POST['doctorFee'])+int(request.POST['medicineCost'])+int(request.POST['OtherCharge'])
+#         }
+#         patientDict.update(feeDict)
+#         #for updating to database patientDischargeDetails (pDD)
+#         pDD=models.PatientDischargeDetails()
+#         pDD.patientId=pk
+#         pDD.patientName=patient.get_name
+#         pDD.assignedDoctorName=assignedDoctor[0].first_name
+#         pDD.address=patient.address
+#         pDD.mobile=patient.mobile
+#         pDD.symptoms=patient.symptoms
+#         pDD.admitDate=patient.admitDate
+#         pDD.releaseDate=date.today()
+#         pDD.daySpent=int(d)
+#         pDD.medicineCost=int(request.POST['medicineCost'])
+#         pDD.roomCharge=int(request.POST['roomCharge'])*int(d)
+#         pDD.doctorFee=int(request.POST['doctorFee'])
+#         pDD.OtherCharge=int(request.POST['OtherCharge'])
+#         pDD.total=(int(request.POST['roomCharge'])*int(d))+int(request.POST['doctorFee'])+int(request.POST['medicineCost'])+int(request.POST['OtherCharge'])
+#         pDD.save()
+#         return render(request,'hospital/patient_final_bill.html',context=patientDict)
+#     return render(request,'hospital/patient_generate_bill.html',context=patientDict)
+
+
 @login_required(login_url='adminlogin')
 @user_passes_test(is_admin)
-def discharge_patient_view(request,pk):
-    patient=models.Patient.objects.get(id=pk)
-    days=(date.today()-patient.admitDate) #2 days, 0:00:00
-    assignedDoctor=models.User.objects.all().filter(id=patient.assignedDoctorId)
-    d=days.days # only how many day that is 2
-    patientDict={
-        'patientId':pk,
-        'name':patient.get_name,
-        'mobile':patient.mobile,
-        'address':patient.address,
-        'symptoms':patient.symptoms,
-        'admitDate':patient.admitDate,
-        'todayDate':date.today(),
-        'day':d,
-        'assignedDoctorName':assignedDoctor[0].first_name,
+def discharge_patient_view(request, pk):
+    patient = models.Patient.objects.get(id=pk)
+    days = (date.today() - patient.admitDate)
+    d = days.days
+
+    assignedDoctor = patient.assignedDoctor
+    assignedDoctorName = assignedDoctor.user.first_name if assignedDoctor else "No Doctor Assigned"
+
+    patientDict = {
+        'patientId': pk,
+        'name': patient.get_name,
+        'mobile': patient.mobile,
+        'address': patient.address,
+        'symptoms': patient.symptoms,
+        'admitDate': patient.admitDate,
+        'todayDate': date.today(),
+        'day': d,
+        'assignedDoctorName': assignedDoctorName,
     }
+
     if request.method == 'POST':
-        feeDict ={
-            'roomCharge':int(request.POST['roomCharge'])*int(d),
-            'doctorFee':request.POST['doctorFee'],
-            'medicineCost' : request.POST['medicineCost'],
-            'OtherCharge' : request.POST['OtherCharge'],
-            'total':(int(request.POST['roomCharge'])*int(d))+int(request.POST['doctorFee'])+int(request.POST['medicineCost'])+int(request.POST['OtherCharge'])
+        room_charge = int(request.POST['roomCharge'])
+        doctor_fee = int(request.POST['doctorFee'])
+        medicine_cost = int(request.POST['medicineCost'])
+        other_charge = int(request.POST['OtherCharge'])
+
+        total = (room_charge * d) + doctor_fee + medicine_cost + other_charge
+
+        feeDict = {
+            'roomCharge': room_charge * d,
+            'doctorFee': doctor_fee,
+            'medicineCost': medicine_cost,
+            'OtherCharge': other_charge,
+            'total': total,
         }
+
         patientDict.update(feeDict)
-        #for updating to database patientDischargeDetails (pDD)
-        pDD=models.PatientDischargeDetails()
-        pDD.patientId=pk
-        pDD.patientName=patient.get_name
-        pDD.assignedDoctorName=assignedDoctor[0].first_name
-        pDD.address=patient.address
-        pDD.mobile=patient.mobile
-        pDD.symptoms=patient.symptoms
-        pDD.admitDate=patient.admitDate
-        pDD.releaseDate=date.today()
-        pDD.daySpent=int(d)
-        pDD.medicineCost=int(request.POST['medicineCost'])
-        pDD.roomCharge=int(request.POST['roomCharge'])*int(d)
-        pDD.doctorFee=int(request.POST['doctorFee'])
-        pDD.OtherCharge=int(request.POST['OtherCharge'])
-        pDD.total=(int(request.POST['roomCharge'])*int(d))+int(request.POST['doctorFee'])+int(request.POST['medicineCost'])+int(request.POST['OtherCharge'])
+
+        pDD = models.PatientDischargeDetails()
+        pDD.patient = patient
+        pDD.patientName = patient.get_name
+        pDD.assignedDoctorName = assignedDoctorName
+        pDD.address = patient.address
+        pDD.mobile = patient.mobile
+        pDD.symptoms = patient.symptoms
+        pDD.admitDate = patient.admitDate
+        pDD.releaseDate = date.today()
+        pDD.daySpent = d
+        pDD.medicineCost = medicine_cost
+        pDD.roomCharge = room_charge * d
+        pDD.doctorFee = doctor_fee
+        pDD.otherCharge = other_charge
+        pDD.total = total
         pDD.save()
-        return render(request,'hospital/patient_final_bill.html',context=patientDict)
-    return render(request,'hospital/patient_generate_bill.html',context=patientDict)
+
+        return render(request, 'hospital/patient_final_bill.html', context=patientDict)
+
+    return render(request, 'hospital/patient_generate_bill.html', context=patientDict)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -878,25 +1022,53 @@ def render_to_pdf(template_src, context_dict):
 
 
 
-def download_pdf_view(request,pk):
-    dischargeDetails=models.PatientDischargeDetails.objects.all().filter(patientId=pk).order_by('-id')[:1]
-    dict={
-        'patientName':dischargeDetails[0].patientName,
-        'assignedDoctorName':dischargeDetails[0].assignedDoctorName,
-        'address':dischargeDetails[0].address,
-        'mobile':dischargeDetails[0].mobile,
-        'symptoms':dischargeDetails[0].symptoms,
-        'admitDate':dischargeDetails[0].admitDate,
-        'releaseDate':dischargeDetails[0].releaseDate,
-        'daySpent':dischargeDetails[0].daySpent,
-        'medicineCost':dischargeDetails[0].medicineCost,
-        'roomCharge':dischargeDetails[0].roomCharge,
-        'doctorFee':dischargeDetails[0].doctorFee,
-        'OtherCharge':dischargeDetails[0].OtherCharge,
-        'total':dischargeDetails[0].total,
-    }
-    return render_to_pdf('hospital/download_bill.html',dict)
+# def download_pdf_view(request,pk):
+#     # dischargeDetails=models.PatientDischargeDetails.objects.all().filter(patientId=pk).order_by('-id')[:1]
+#     dischargeDetails = models.PatientDischargeDetails.objects.filter(patient_id=pk).order_by('-id')[:1]
 
+
+
+
+#     dict={
+#         'patientName':dischargeDetails[0].patientName,
+#         'assignedDoctorName':dischargeDetails[0].assignedDoctorName,
+#         'address':dischargeDetails[0].address,
+#         'mobile':dischargeDetails[0].mobile,
+#         'symptoms':dischargeDetails[0].symptoms,
+#         'admitDate':dischargeDetails[0].admitDate,
+#         'releaseDate':dischargeDetails[0].releaseDate,
+#         'daySpent':dischargeDetails[0].daySpent,
+#         'medicineCost':dischargeDetails[0].medicineCost,
+#         'roomCharge':dischargeDetails[0].roomCharge,
+#         'doctorFee':dischargeDetails[0].doctorFee,
+#         'OtherCharge':dischargeDetails[0].OtherCharge,
+#         'total':dischargeDetails[0].total,
+#     }
+#     return render_to_pdf('hospital/download_bill.html',dict)
+
+def download_pdf_view(request, pk):
+    dischargeDetails = models.PatientDischargeDetails.objects.filter(patient_id=pk).order_by('-id')[:1]
+    if not dischargeDetails:
+        # Handle case when no discharge details found (optional)
+        return HttpResponse("No discharge details found for this patient.")
+
+    discharge = dischargeDetails[0]
+    context = {
+        'patientName': discharge.patientName,
+        'assignedDoctorName': discharge.assignedDoctorName,
+        'address': discharge.address,
+        'mobile': discharge.mobile,
+        'symptoms': discharge.symptoms,
+        'admitDate': discharge.admitDate,
+        'releaseDate': discharge.releaseDate,
+        'daySpent': discharge.daySpent,
+        'medicineCost': discharge.medicineCost,
+        'roomCharge': discharge.roomCharge,
+        'doctorFee': discharge.doctorFee,
+        'OtherCharge': discharge.otherCharge,
+        'total': discharge.total,
+    }
+    return render_to_pdf('hospital/download_bill.html', context)
 
 
 #-----------------APPOINTMENT START--------------------------------------------------------------------
@@ -1329,7 +1501,33 @@ def patient_book_appointment_view(request):
 
             doctor = models.Doctor.objects.get(user_id=request.POST.get('doctorId'))
 
-            # 🔍 Disease-to-department validation logic
+            # # 🔍 Disease-to-department validation logic
+            # if doctor.department == 'Cardiologist' and 'heart' not in desc:
+            #     message = "Please Choose Doctor According To Disease"
+            #     return render(request, 'hospital/patient_book_appointment.html', mydict)
+
+            # if doctor.department == 'Dermatologists' and 'skin' not in desc:
+            #     message = "Please Choose Doctor According To Disease"
+            #     return render(request, 'hospital/patient_book_appointment.html', mydict)
+
+            # if doctor.department == 'Emergency Medicine Specialists' and 'fever' not in desc:
+            #     message = "Please Choose Doctor According To Disease"
+            #     return render(request, 'hospital/patient_book_appointment.html', mydict)
+
+            # if doctor.department == 'Allergists/Immunologists' and 'allergy' not in desc:
+            #     message = "Please Choose Doctor According To Disease"
+            #     return render(request, 'hospital/patient_book_appointment.html', mydict)
+
+            # if doctor.department == 'Anesthesiologists' and 'surgery' not in desc:
+            #     message = "Please Choose Doctor According To Disease"
+            #     return render(request, 'hospital/patient_book_appointment.html', mydict)
+
+            # if doctor.department == 'Colon and Rectal Surgeons' and 'cancer' not in desc:
+            #     message = "Please Choose Doctor According To Disease"
+            #     return render(request, 'hospital/patient_book_appointment.html', mydict)
+                        
+            desc = desc.lower()  # Normalize input for consistent keyword checking
+
             if doctor.department == 'Cardiologist' and 'heart' not in desc:
                 message = "Please Choose Doctor According To Disease"
                 return render(request, 'hospital/patient_book_appointment.html', mydict)
@@ -1353,6 +1551,70 @@ def patient_book_appointment_view(request):
             if doctor.department == 'Colon and Rectal Surgeons' and 'cancer' not in desc:
                 message = "Please Choose Doctor According To Disease"
                 return render(request, 'hospital/patient_book_appointment.html', mydict)
+
+            if doctor.department == 'Neurologists' and 'brain' not in desc:
+                message = "Please Choose Doctor According To Disease"
+                return render(request, 'hospital/patient_book_appointment.html', mydict)
+
+            if doctor.department == 'Psychiatrists' and 'mental' not in desc:
+                message = "Please Choose Doctor According To Disease"
+                return render(request, 'hospital/patient_book_appointment.html', mydict)
+
+            if doctor.department == 'Orthopedic Surgeons' and 'bone' not in desc:
+                message = "Please Choose Doctor According To Disease"
+                return render(request, 'hospital/patient_book_appointment.html', mydict)
+
+            if doctor.department == 'Pediatricians' and 'child' not in desc:
+                message = "Please Choose Doctor According To Disease"
+                return render(request, 'hospital/patient_book_appointment.html', mydict)
+
+            if doctor.department == 'Gynecologists' and 'pregnancy' not in desc:
+                message = "Please Choose Doctor According To Disease"
+                return render(request, 'hospital/patient_book_appointment.html', mydict)
+
+            if doctor.department == 'Endocrinologists' and 'hormone' not in desc:
+                message = "Please Choose Doctor According To Disease"
+                return render(request, 'hospital/patient_book_appointment.html', mydict)
+
+            if doctor.department == 'Oncologists' and 'tumor' not in desc and 'cancer' not in desc:
+                message = "Please Choose Doctor According To Disease"
+                return render(request, 'hospital/patient_book_appointment.html', mydict)
+
+            if doctor.department == 'Ophthalmologists' and 'eye' not in desc:
+                message = "Please Choose Doctor According To Disease"
+                return render(request, 'hospital/patient_book_appointment.html', mydict)
+
+            if doctor.department == 'Otolaryngologists (ENT)' and 'ear' not in desc and 'throat' not in desc and 'nose' not in desc:
+                message = "Please Choose Doctor According To Disease"
+                return render(request, 'hospital/patient_book_appointment.html', mydict)
+
+            if doctor.department == 'Nephrologists' and 'kidney' not in desc:
+                message = "Please Choose Doctor According To Disease"
+                return render(request, 'hospital/patient_book_appointment.html', mydict)
+
+            if doctor.department == 'Pulmonologists' and 'lung' not in desc or 'breath' not in desc:
+                message = "Please Choose Doctor According To Disease"
+                return render(request, 'hospital/patient_book_appointment.html', mydict)
+
+            if doctor.department == 'Rheumatologists' and 'arthritis' not in desc and 'joint' not in desc:
+                message = "Please Choose Doctor According To Disease"
+                return render(request, 'hospital/patient_book_appointment.html', mydict)
+
+            if doctor.department == 'Gastroenterologists' and 'stomach' not in desc and 'digest' not in desc:
+                message = "Please Choose Doctor According To Disease"
+                return render(request, 'hospital/patient_book_appointment.html', mydict)
+
+            if doctor.department == 'General Surgeons' and 'operation' not in desc and 'surgery' not in desc:
+                message = "Please Choose Doctor According To Disease"
+                return render(request, 'hospital/patient_book_appointment.html', mydict)
+
+
+
+
+
+
+
+
 
             # ✅ Saving appointment
             appointment = appointmentForm.save(commit=False)

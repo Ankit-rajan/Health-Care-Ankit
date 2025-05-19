@@ -214,9 +214,13 @@ class PatientUserForm(forms.ModelForm):
         return email
 
 
+
+
+
+
 class PatientForm(forms.ModelForm):
     assignedDoctorId = forms.ModelChoiceField(
-        queryset=models.Doctor.objects.all().filter(status=True),
+        queryset=models.Doctor.objects.filter(status=True),
         empty_label="Choose Doctor (Name and Department)",
         to_field_name="user_id",
         required=True
@@ -226,22 +230,56 @@ class PatientForm(forms.ModelForm):
         super(PatientForm, self).__init__(*args, **kwargs)
         self.fields['assignedDoctorId'].queryset = models.Doctor.objects.filter(status=True)
         self.fields['assignedDoctorId'].label_from_instance = lambda obj: f"{obj.get_name} ({obj.department})"
-    
+
     class Meta:
         model = models.Patient
         fields = ['address', 'mobile', 'status', 'symptoms', 'profile_pic']
+        widgets = {
+            'profile_pic': forms.ClearableFileInput(attrs={'multiple': True}),
+        }
 
-    # Optional: If you want to provide a better file input UI
-    widgets = {
-        'profile_pic': forms.ClearableFileInput(attrs={'multiple': True}),
-    }
-
-    # Additional validation for mobile (if required)
     def clean_mobile(self):
         mobile = self.cleaned_data.get('mobile')
         if len(mobile) != 10:
             raise forms.ValidationError("Mobile number must be 10 digits.")
         return mobile
+
+    def save(self, commit=True):
+        patient = super().save(commit=False)
+        # Assign the model's assignedDoctor field from the form field assignedDoctorId
+        patient.assignedDoctor = self.cleaned_data['assignedDoctorId']
+        if commit:
+            patient.save()
+        return patient
+
+# class PatientForm(forms.ModelForm):
+#     assignedDoctorId = forms.ModelChoiceField(
+#         queryset=models.Doctor.objects.all().filter(status=True),
+#         empty_label="Choose Doctor (Name and Department)",
+#         to_field_name="user_id",
+#         required=True
+#     )
+
+#     def __init__(self, *args, **kwargs):
+#         super(PatientForm, self).__init__(*args, **kwargs)
+#         self.fields['assignedDoctorId'].queryset = models.Doctor.objects.filter(status=True)
+#         self.fields['assignedDoctorId'].label_from_instance = lambda obj: f"{obj.get_name} ({obj.department})"
+    
+#     class Meta:
+#         model = models.Patient
+#         fields = ['address', 'mobile', 'status', 'symptoms', 'profile_pic']
+
+#     # Optional: If you want to provide a better file input UI
+#     widgets = {
+#         'profile_pic': forms.ClearableFileInput(attrs={'multiple': True}),
+#     }
+
+#     # Additional validation for mobile (if required)
+#     def clean_mobile(self):
+#         mobile = self.cleaned_data.get('mobile')
+#         if len(mobile) != 10:
+#             raise forms.ValidationError("Mobile number must be 10 digits.")
+#         return mobile
 
 
 class AppointmentForm(forms.ModelForm):

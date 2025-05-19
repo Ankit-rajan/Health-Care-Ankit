@@ -37,15 +37,52 @@ class Migration(migrations.Migration):
                 ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
         ),
+        # migrations.CreateModel(
+        #     name='Doctor',
+        #     fields=[
+        #         ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+        #         ('address', models.CharField(max_length=40)),
+        #         ('mobile', models.CharField(max_length=40, null=True)),
+        #         ('department', models.CharField(choices=[('Cardiologist', 'Cardiologist'), ('Dermatologists', 'Dermatologists'), ('Emergency Medicine Specialists', 'Emergency Medicine Specialists'), ('Allergists/Immunologists', 'Allergists/Immunologists'), ('Anesthesiologists', 'Anesthesiologists'), ('Colon and Rectal Surgeons', 'Colon and Rectal Surgeons')], default='Cardiologist', max_length=50)),
+        #         ('status', models.BooleanField(default=False)),
+        #         ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+        #     ],
+        # ),
         migrations.CreateModel(
-            name='Doctor',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('address', models.CharField(max_length=40)),
-                ('mobile', models.CharField(max_length=40, null=True)),
-                ('department', models.CharField(choices=[('Cardiologist', 'Cardiologist'), ('Dermatologists', 'Dermatologists'), ('Emergency Medicine Specialists', 'Emergency Medicine Specialists'), ('Allergists/Immunologists', 'Allergists/Immunologists'), ('Anesthesiologists', 'Anesthesiologists'), ('Colon and Rectal Surgeons', 'Colon and Rectal Surgeons')], default='Cardiologist', max_length=50)),
-                ('status', models.BooleanField(default=False)),
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+    name='Doctor',
+    fields=[
+        ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+        ('address', models.CharField(max_length=40)),
+        ('mobile', models.CharField(max_length=40, null=True)),
+        ('department', models.CharField(
+            choices=[
+                ('Cardiologist', 'Cardiologist'),
+                ('Dermatologists', 'Dermatologists'),
+                ('Emergency Medicine Specialists', 'Emergency Medicine Specialists'),
+                ('Allergists/Immunologists', 'Allergists/Immunologists'),
+                ('Anesthesiologists', 'Anesthesiologists'),
+                ('Colon and Rectal Surgeons', 'Colon and Rectal Surgeons'),
+                ('Neurologists', 'Neurologists'),
+                ('Psychiatrists', 'Psychiatrists'),
+                ('Orthopedic Surgeons', 'Orthopedic Surgeons'),
+                ('Pediatricians', 'Pediatricians'),
+                ('Gynecologists', 'Gynecologists'),
+                ('Endocrinologists', 'Endocrinologists'),
+                ('Oncologists', 'Oncologists'),
+                ('Ophthalmologists', 'Ophthalmologists'),
+                ('Otolaryngologists (ENT)', 'Otolaryngologists (ENT)'),
+                ('Nephrologists', 'Nephrologists'),
+                ('Pulmonologists', 'Pulmonologists'),
+                ('Rheumatologists', 'Rheumatologists'),
+                ('Gastroenterologists', 'Gastroenterologists'),
+                ('General Surgeons', 'General Surgeons')
             ],
-        ),
+            default='Cardiologist',
+            max_length=50
+        )),
+        ('status', models.BooleanField(default=False)),
+        ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+    ],
+)
+
     ]

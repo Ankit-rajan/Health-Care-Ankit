@@ -127,6 +127,7 @@ STATICFILES_DIRS=[STATIC_DIR,]
 
 MEDIA_ROOT=os.path.join(BASE_DIR,'static')
 
+TEMPLATES[0]['OPTIONS']['debug'] = True
 
 
 LOGIN_REDIRECT_URL='/afterlogin'
