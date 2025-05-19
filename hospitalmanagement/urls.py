@@ -3,7 +3,7 @@ from django.urls import path
 from hospital import views
 from django.contrib.auth.views import LoginView,LogoutView
 from hospital.views import AdminLoginConfirmationView  # Correct import
-
+from django.views.generic import TemplateView
 #-------------FOR ADMIN RELATED URLS
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -96,6 +96,8 @@ urlpatterns +=[
     path('patient-book-appointment', views.patient_book_appointment_view,name='patient-book-appointment'),
     path('patient-view-appointment', views.patient_view_appointment_view,name='patient-view-appointment'),
     path('patient-discharge', views.patient_discharge_view,name='patient-discharge'),
-
+    path('privacy-policy/', TemplateView.as_view(template_name='hospital/privacy_policy.html'), name='privacy_policy'),
+    path('terms-of-service/', TemplateView.as_view(template_name='hospital/terms_of_service.html'), name='terms_of_service'),
 ]
+
 

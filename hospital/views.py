@@ -104,7 +104,7 @@ def admin_signup_view(request):
 
             # Send confirmation email to the new admin user
             subject = "Admin Account Created"
-            message = f"Hello {user.first_name},\n\nYour admin account has been successfully created! You can now log in using your credentials.\n\nBest regards,\nHeath Care Management Team"
+            message = f"Hello {user.first_name},\n\nYour admin account has been successfully created! You can now log in using your credentials.\n\nBest regards,\nHealth Care Management Team"
             
             send_mail(
                 subject,

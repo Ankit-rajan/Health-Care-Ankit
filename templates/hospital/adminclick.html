@@ -1,19 +1,16 @@
+
+
 {% extends 'hospital/homebase.html' %}
 
 {% block content %}
-
-<br>
-<br>
-
-<div class="jumbotron" style="margin-bottom:0px;">
-  <h1 class="display-4" style="text-align:center;">Hello, Admin</h1>
+<br><br>
+<div class="jumbotron text-center">
+  <h1 class="display-4">Hello, Admin</h1>
   <p class="lead">Welcome to Hospital Management System.</p>
   <hr class="my-4">
- 
   <p class="lead">
-    <a class="btn btn-danger btn-lg" href="/adminsignup" role="button">Sign Up</a>
-    <a class="btn btn-success btn-lg" href="/adminlogin" role="button">Login</a>
+    <a class="btn btn-danger btn-lg" href="/adminsignup">Sign Up</a>
+    <a class="btn btn-success btn-lg" href="/adminlogin">Login</a>
   </p>
 </div>
-
-{% endblock  %}
+{% endblock %}

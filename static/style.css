@@ -1,7 +1,13 @@
-body {
+/* body {
 
   padding-left: 240px;
+} */
+
+
+body.with-sidebar {
+  padding-left: 240px;
 }
+
 main {
   position: relative;
   height: 100vh;
@@ -67,6 +73,10 @@ main {
 .menu ul li:focus {
   outline: none;
 }
+
+
+
+
 @media screen and (max-width: 900px) and (min-width: 400px) {
   body {
     padding-left: 90px;

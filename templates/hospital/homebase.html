@@ -1,40 +1,27 @@
-<!-- <!DOCTYPE html>
-<html lang="en" dir="ltr">
 
-<head>
-  <meta charset="utf-8">
-  <title>HMS - Django</title>
-
-</head>
-
-<body>
-  {% include "hospital/navbar.html" %}
-  {%block content%}
-
-  {%endblock content%}
-  {% include "hospital/footer.html" %}
-</body>
-
-
-</html> -->
 {% load static %}
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}Heath care {% endblock title %}</title>
+  <title>{% block title %}Health care {% endblock title %}</title>
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
   <link rel="icon" href="{% static 'images/favicon.ico' %}">
 </head>
 
+
+
 <body>
   {% include "hospital/navbar.html" %}
   
-  {% block content %}
-  {% endblock  %}
+  <main class="content-wrapper">
+    {% block content %}
+    {% endblock %}
+  </main>
 
   {% include "hospital/footer.html" %}
   <script src="{% static 'js/main.js' %}"></script>
 </body>
+
 </html>
