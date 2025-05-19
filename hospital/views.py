@@ -1749,5 +1749,10 @@ def contactus_view(request):
 #---------------------------------------------------------------------------------
 
 
+# aboutus_view
 
 
+
+
+def aboutus_view(request):
+    return render(request, 'hospital/aboutus.html')

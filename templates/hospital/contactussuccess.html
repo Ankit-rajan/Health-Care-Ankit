@@ -5,33 +5,95 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-
   <title>HMS - Django</title>
-  <style media="screen">
-    .jumbotron {
-      margin-bottom: 0px;
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+  <style>
+    body {
+      background-color: #f4f7fc;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
     }
 
-    .jumbotron h1 {
+    .success-wrapper {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 60px 20px;
+    }
+
+    .success-box {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 40px 35px;
       text-align: center;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+      max-width: 700px;
+      width: 100%;
+      animation: fadeSlideUp 0.8s ease-out forwards;
+      opacity: 0;
+      transform: translateY(40px);
+    }
+
+    @keyframes fadeSlideUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .success-box h1 {
+      font-size: 2.5rem;
+      color: #2c3e50;
+      font-weight: 700;
+    }
+
+    .success-box p {
+      font-size: 1.2rem;
+      color: #555;
+      margin-top: 15px;
+    }
+
+    .success-box hr {
+      border-top: 1px solid #ddd;
+      margin: 25px 0;
+    }
+
+    .btn-home {
+      padding: 12px 30px;
+      font-size: 18px;
+      font-weight: 600;
+      background-color: #337ab7;
+      border: none;
+      border-radius: 6px;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      color: white;
+      text-decoration: none;
+    }
+
+    .btn-home:hover {
+      background-color: #286090;
+      transform: scale(1.05);
     }
   </style>
-
 </head>
 
 <body>
-
   {% include "hospital/navbar.html" %}
-  <br><br>
-  <div class="jumbotron">
-    <h1 class="display-4">Your message sent successfully !</h1>
-    <p class="lead">We will respond to your feedback soon</p>
-    <hr class="my-4">
-    <p>Check other features of website !</p>
-    <p class="lead">
-      <a class="btn btn-primary btn-lg" href="/" role="button">HOME</a>
-    </p>
+
+  <div class="success-wrapper">
+    <div class="success-box">
+      <h1>Your Message Has Been Sent!</h1>
+      <p>Thank you for reaching out to us. We truly value your feedback.</p>
+      <hr>
+      <p>Feel free to explore other features of the Hospital Management System.</p>
+      <a href="/" class="btn-home">Back to Home</a>
+    </div>
   </div>
 
   {% include "hospital/footer.html" %}

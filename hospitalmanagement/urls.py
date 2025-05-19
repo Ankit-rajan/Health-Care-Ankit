@@ -98,6 +98,7 @@ urlpatterns +=[
     path('patient-discharge', views.patient_discharge_view,name='patient-discharge'),
     path('privacy-policy/', TemplateView.as_view(template_name='hospital/privacy_policy.html'), name='privacy_policy'),
     path('terms-of-service/', TemplateView.as_view(template_name='hospital/terms_of_service.html'), name='terms_of_service'),
+    path('about/', views.aboutus_view, name='aboutus'),
 ]
 
 

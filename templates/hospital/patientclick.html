@@ -1,20 +1,221 @@
 {% extends 'hospital/homebase.html' %}
 
-
 {% block content %}
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7f9;
+    color: #333;
+  }
 
-<br>
-<br>
+  /* --- Hero Section --- */
+  .hero-section {
+    background: linear-gradient(135deg, #007BFF, #00C6FF);
+    color: white;
+    padding: 80px 20px 60px;
+    text-align: center;
+    border-radius: 0 0 50px 50px;
+  }
 
-<div class="jumbotron text-center">
-  <h1 class="display-4" style="text-align:center;">Hello, Patient</h1>
-  <p class="lead">Welcome to Hospital Management System.</p>
-  <hr class="my-4">
+  .hero-section h1 {
+    font-size: 52px;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
 
-  <p class="lead">
-    <a class="btn btn-danger btn-lg" href="/patientsignup" role="button">Register Your Account</a>
-    <a class="btn btn-success btn-lg" href="/patientlogin" role="button">Login</a>
-  </p>
+  .hero-section p {
+    font-size: 22px;
+    margin-bottom: 30px;
+  }
+
+  .hero-section .btn {
+    margin: 0 15px;
+    font-size: 20px;
+    padding: 14px 40px;
+    border-radius: 50px;
+    transition: background-color 0.3s ease;
+  }
+
+  .hero-section .btn-light {
+    color: #007BFF;
+    background-color: white;
+  }
+
+  .hero-section .btn-light:hover {
+    background-color: #e6e6e6;
+  }
+
+  .hero-section .btn-dark {
+    background-color: #0056b3;
+    border: none;
+  }
+
+  .hero-section .btn-dark:hover {
+    background-color: #003d80;
+  }
+
+  /* --- Patient Dashboard --- */
+  .dashboard {
+    max-width: 1100px;
+    margin: 50px auto 80px;
+    padding: 0 20px;
+  }
+
+  .dashboard h2 {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    text-align: center;
+    color: #007BFF;
+  }
+
+  /* Cards Container */
+  .cards-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    justify-content: center;
+  }
+
+  /* Single Card */
+  .card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    flex: 1 1 320px;
+    padding: 25px 30px;
+    transition: transform 0.3s ease;
+  }
+
+  .card:hover {
+    transform: translateY(-8px);
+  }
+
+  .card h3 {
+    color: #0056b3;
+    margin-bottom: 15px;
+    font-weight: 600;
+  }
+
+  .card p {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  /* Appointment Table */
+  .appointments-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+  }
+
+  .appointments-table th,
+  .appointments-table td {
+    border: 1px solid #ddd;
+    padding: 12px 15px;
+    text-align: center;
+  }
+
+  .appointments-table th {
+    background-color: #007BFF;
+    color: white;
+    font-weight: 600;
+  }
+
+  /* Health Tips Section */
+  .health-tips {
+    background-color: white;
+    padding: 50px 20px;
+    border-radius: 15px;
+    max-width: 1100px;
+    margin: 0 auto 80px;
+  }
+
+  .health-tips h2 {
+    text-align: center;
+    font-weight: 700;
+    margin-bottom: 35px;
+    color: #007BFF;
+  }
+
+  .tips-list {
+    max-width: 800px;
+    margin: 0 auto;
+    list-style: none;
+    padding: 0;
+  }
+
+  .tips-list li {
+    font-size: 18px;
+    padding-left: 30px;
+    position: relative;
+    margin-bottom: 18px;
+  }
+
+  .tips-list li::before {
+    content: "✔";
+    position: absolute;
+    left: 0;
+    color: green;
+    font-weight: bold;
+  }
+
+  /* Responsive */
+  @media (max-width: 992px) {
+    .cards-container {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .dashboard {
+      margin: 30px 15px 50px;
+    }
+  }
+</style>
+
+<!-- Hero Section -->
+<div class="hero-section">
+  <h1>Welcome, Patient</h1>
+  <p>Take control of your healthcare journey with our easy-to-use HealthCare Center.</p>
+  <a class="btn btn-light btn-lg" href="/patientsignup" role="button">Register Your Account</a>
+  <a class="btn btn-dark btn-lg" href="/patientlogin" role="button">Login</a>
 </div>
 
-{% endblock  %}
+<!-- Patient Dashboard -->
+<!-- Patient Dashboard Section -->
+<br><br><br><br><br>
+<!-- Info Section -->
+<div class="dashboard" style="margin-top: -50px;">
+  <h2>How Our System Helps You</h2>
+  <div class="cards-container">
+    <div class="card">
+      <h3>Easy Appointments</h3>
+      <p>Book your doctor visits in just a few clicks with instant confirmation.</p>
+    </div>
+    <div class="card">
+      <h3>Secure Medical History</h3>
+      <p>Access your health records safely and anytime from your dashboard.</p>
+    </div>
+    <div class="card">
+      <h3>Doctor Availability</h3>
+      <p>View doctors by specialty and book at your convenience.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Health Tips Section -->
+<div class="health-tips">
+  <h2>Health Tips for a Better Life</h2>
+  <ul class="tips-list">
+    
+    <li>🩺 Schedule appointments with trusted doctors anytime, anywhere.</li>
+    <li>💊 Keep track of your prescriptions and medical history digitally.</li>
+    <li>📅 Get timely notifications for your upcoming checkups.</li>
+    <li>🥦 Eat a balanced diet, stay hydrated, and sleep 7–8 hours daily.</li>
+    <li>🚶‍♂️ Exercise regularly — even 30 minutes of walking helps!</li>
+    <li>🧠 Mental health matters — don't hesitate to reach out to professionals.</li>
+    <li>💬 You can contact us easily using the Contact Us form.</li>
+  
+  </ul>
+</div>
+{% endblock %}

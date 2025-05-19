@@ -1,45 +1,111 @@
-<!DOCTYPE html>
+{% extends 'hospital/homebase.html' %}
 {% load static %}
-<html lang="en" dir="ltr">
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <title>HMS - Django</title>
-  <style media="screen">
-    .jumbotron {
-      margin-top: 0px;
-      margin-bottom: 0px;
+{% block title %}About Us{% endblock %}
+
+{% block content %}
+<div class="container about-section mt-5 mb-5">
+  <div class="text-center mb-4">
+    <h1 class="display-5 font-weight-bold text-primary">About Us</h1>
+    <p class="text-muted">Empowering healthcare with technology-driven solutions</p>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 mb-4">
+      <img src="{% static 'images/about-hospital.jpg' %}" alt="Hospital Image" class="img-fluid rounded shadow">
+    </div>
+    <div class="col-md-6">
+      <h3 class="text-success">Welcome to Our HealthCare Center</h3>
+      <p>
+        Our platform is a modern web-based application designed to simplify and streamline hospital operations. From appointment scheduling and patient management to doctor assignments and administrative tools — everything is under one roof.
+      </p>
+      <ul>
+        <li>Secure Patient Records and Appointments</li>
+        <li>Doctor and Admin Portals</li>
+        <li>Real-time Notifications and Confirmations</li>
+        <li>Data-Driven and Scalable System</li>
+      </ul>
+      <p>
+        Whether you're a patient seeking care, a doctor managing appointments, or an administrator organizing operations — our system is built to support your needs efficiently.
+      </p>
+    </div>
+  </div>
+
+  <div class="row mt-5">
+    <div class="col-md-12">
+      <h4 class="text-primary">Our Mission</h4>
+      <p>
+        To bridge the gap between healthcare and technology by providing hospitals with a reliable, secure, and user-friendly digital infrastructure. We aim to enhance patient care while reducing administrative burden.
+      </p>
+      <h4 class="text-primary mt-4">Developed By</h4>
+      <p>
+        <strong>Ankit (Roll No. 2203002024)</strong> <br>
+        6th Semester, BCA <br>
+        This project was developed as a part of a semester project using the Html,css and Django with features like secure login, doctor assignment, email notifications, and more.
+      </p>
+    </div>
+  </div>
+
+  <div class="text-center mt-4">
+    <a class="btn btn-outline-primary btn-lg" href="/" role="button">Back to Home</a>
+  </div>
+</div>
+
+<style>
+  .about-section {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    animation: fadeIn 1.2s ease-in forwards;
+    opacity: 0;
+  }
+
+  @keyframes fadeIn {
+    to {
+      opacity: 1;
     }
+  }
 
-    .jumbotron h1 {
+  .about-section h1,
+  .about-section h3,
+  .about-section h4 {
+    font-weight: 600;
+  }
+
+  .about-section ul {
+    padding-left: 20px;
+  }
+
+  .about-section li {
+    margin-bottom: 8px;
+  }
+
+  .about-section img {
+    max-height: 350px;
+    object-fit: cover;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+  }
+
+  .about-section img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+  }
+
+  .about-section .col-md-6 {
+    transition: transform 0.4s ease, opacity 0.4s ease;
+    opacity: 0.9;
+  }
+
+  .about-section .col-md-6:hover {
+    transform: translateY(-10px);
+    opacity: 1;
+  }
+
+  @media (max-width: 768px) {
+    .about-section .row {
       text-align: center;
     }
-
-    .alert {
-      margin: 0px;
-    }
-  </style>
-  <title>Ankit</title>
-</head>
-
-<body>
-  {% include "hospital/navbar.html" %}
-  <br><br>
-  <center>
-    <h3 class='alert alert-success' style="margin-bottom:0px;">About Us !</h3>
-  </center>
-  <div class="jumbotron" style="margin-bottom: 0px;margin-top: 0px;">
-    <h1 class="display-4">Hello</h1>
-    <p class="lead">A service dedicated to Hospital Admin, Doctor and Patient.</p>
-    <hr class="my-4">
-    <p>Explore our Website.</p>
-    <p class="lead">
-      <a class="btn btn-primary btn-lg" href="/" role="button">HOME</a>
-    </p>
-  </div>
-  {% include "hospital/footer.html" %}
-</body>
-
-
-</html>
+  }
+</style>
+{% endblock %}

@@ -4,34 +4,133 @@
 
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
   <title>HMS - Django</title>
 
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
+  <style>
+    body {
+      background-color: #f2f4f8;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .main-wrapper {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 80px 15px 40px;
+    }
+
+    .contact-container {
+      background-color: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+      padding: 40px 35px;
+      max-width: 700px;
+      width: 100%;
+      animation: slideFadeIn 0.8s ease-out forwards;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    @keyframes slideFadeIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .contact-container h2 {
+      font-weight: 700;
+      color: #0056b3;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .contact-container p {
+      text-align: center;
+      color: #666;
+      margin-bottom: 30px;
+    }
+
+    .contact-container form p {
+      margin-bottom: 1rem;
+    }
+
+    .contact-container label {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .contact-container input,
+    .contact-container textarea {
+      width: 100%;
+      padding: 10px 14px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+
+    .contact-container input:focus,
+    .contact-container textarea:focus {
+      border-color: #337AB7;
+      box-shadow: 0 0 8px rgba(51, 122, 183, 0.2);
+      outline: none;
+    }
+
+    .contact-container textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 12px;
+      font-size: 18px;
+      font-weight: 600;
+      border-radius: 6px;
+      background-color: #337AB7;
+      border: none;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    .btn-submit:hover {
+      background-color: #286090;
+      transform: scale(1.02);
+    }
+
+    @media (max-width: 576px) {
+      .contact-container {
+        padding: 25px 20px;
+      }
+    }
+  </style>
 </head>
 
 <body>
-
   {% include "hospital/navbar.html" %}
-  <br><br>
 
-  <center>
-    <h3 class='alert alert-success'>Send Us Your Valuable Feedback !</h3>
+  <div class="main-wrapper">
+    <div class="contact-container">
+      <h2>Contact Us</h2>
+      <p>We'd love to hear from you! Please share your thoughts or queries below.</p>
 
-    <form method="POST">
-      <!-- Very Important csrf Token -->
-      {% csrf_token %}
-      <div class="form-group">
-        <p>
-        <h3>{{ form.as_p }}</h3>
-        </p>
-        <br>
-        <input type="submit" value="Send Message" class='btn btn-primary btn-lg'>
-      </div>
-    </form>
-  </center>
+      <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary btn-submit">Send Message</button>
+      </form>
+    </div>
+  </div>
+
   {% include "hospital/footer.html" %}
 </body>
-
 
 </html>
