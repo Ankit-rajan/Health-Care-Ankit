@@ -148,7 +148,7 @@ def admin_signup_view(request):
             
 #             # Send confirmation email to the admin user
 #             subject = "Admin Login Successful"
-#             message = f"Hello {user.first_name},\n\nYou have successfully logged in to the Hospital Management System.\n\nBest regards,\nHospital Management System"
+#             message = f"Hello {user.first_name},\n\nYou have successfully logged in to the Ankit HealthCare Center .\n\nBest regards,\nAnkit HealthCare Center "
             
 #             send_mail(
 #                 subject,
@@ -196,8 +196,8 @@ def admin_signup_view(request):
 #         subject = "Admin Login Successful"
 #         message = (
 #             f"Hello {user.first_name},\n\n"
-#             "You have successfully logged in to the Hospital Management System.\n\n"
-#             "Best regards,\nHospital Management System"
+#             "You have successfully logged in to the Ankit HealthCare Center .\n\n"
+#             "Best regards,\nAnkit HealthCare Center "
 #         )
 #         send_mail(
 #             subject,
@@ -249,8 +249,8 @@ def admin_signup_view(request):
 #             subject = "Admin Login Successful"
 #             message = (
 #                 f"Hello {user.first_name},\n\n"
-#                 "You have successfully logged in to the Hospital Management System.\n\n"
-#                 "Best regards,\nHospital Management System"
+#                 "You have successfully logged in to the Ankit HealthCare Center .\n\n"
+#                 "Best regards,\nAnkit HealthCare Center "
 #             )
 #             send_mail(
 #                 subject,
@@ -303,8 +303,8 @@ def admin_signup_view(request):
 #             subject = "Admin Login Successful"
 #             message = (
 #                 f"Hello {user.first_name},\n\n"
-#                 "You have successfully logged in to the Hospital Management System.\n\n"
-#                 "Best regards,\nHospital Management System"
+#                 "You have successfully logged in to the Ankit HealthCare Center .\n\n"
+#                 "Best regards,\nAnkit HealthCare Center "
 #             )
 #             send_mail(
 #                 subject,
@@ -349,8 +349,8 @@ class AdminLoginConfirmationView(View):
             subject = "Admin Login Successful"
             message = (
                 f"Hello {user.first_name},\n\n"
-                "You have successfully logged in to the Hospital Management System.\n\n"
-                "Best regards,\nHospital Management System"
+                "You have successfully logged in to the ankit HealthCare Center.\n\n"
+                "Best regards,\nHealthCare Center"
             )
             send_mail(
                 subject,
@@ -445,7 +445,7 @@ def doctor_signup_view(request):
 #             # Send the email
 #             send_mail(
 #                 subject='Welcome to Our Hospital',
-#                 message=f"Dear {user.first_name},\n\nThank you for registering with our Hospital Management System. Your assigned doctor will review your profile shortly.\n\nBest regards,\nHospital Admin",
+#                 message=f"Dear {user.first_name},\n\nThank you for registering with our Ankit HealthCare Center . Your assigned doctor will review your profile shortly.\n\nBest regards,\nHospital Admin",
 #                 from_email=settings.DEFAULT_FROM_EMAIL,
 #                 recipient_list=[user.email],
 #                 fail_silently=False,
@@ -484,7 +484,7 @@ def patient_signup_view(request):
             
             # Send the professional email
             send_mail(
-                subject='Welcome to Our Hospital Management System',
+                subject='Welcome to Our Ankit HealthCare Center System',
                 message=f"""
                 Dear {user.first_name} {user.last_name},
                 
@@ -494,7 +494,7 @@ def patient_signup_view(request):
                 If you have any questions or require assistance, feel free to reach out to us at any time.
                 
                 Best regards,
-                Hospital Management Team
+                Ankit HealthCare Team
                 {settings.HOSPITAL_NAME}
                 Contact Us: {settings.HOSPITAL_CONTACT}
                 """,

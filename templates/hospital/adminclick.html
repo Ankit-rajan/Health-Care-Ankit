@@ -1,16 +1,175 @@
-
-
 {% extends 'hospital/homebase.html' %}
 
 {% block content %}
-<br><br>
-<div class="jumbotron text-center">
-  <h1 class="display-4">Hello, Admin</h1>
-  <p class="lead">Welcome to Hospital Management System.</p>
-  <hr class="my-4">
-  <p class="lead">
-    <a class="btn btn-danger btn-lg" href="/adminsignup">Sign Up</a>
-    <a class="btn btn-success btn-lg" href="/adminlogin">Login</a>
+<style>
+  /* Container & Jumbotron */
+  .admin-jumbotron {
+    background: linear-gradient(135deg, #343a40, #212529);
+    color: #f8f9fa;
+    padding: 3rem 2rem;
+    border-radius: 0.75rem;
+    box-shadow: 0 0.5rem 1.5rem rgba(0,0,0,0.5);
+    margin-bottom: 3rem;
+  }
+  .admin-jumbotron h1 {
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+  .admin-jumbotron p.lead {
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+  }
+  .admin-jumbotron hr {
+    border-top: 2px solid #ffc107;
+    width: 60px;
+    margin: 1rem auto 2rem;
+  }
+  .btn-admin {
+    min-width: 140px;
+    font-weight: 600;
+    border-radius: 50px;
+    padding: 0.75rem 1.5rem;
+    box-shadow: 0 0.3rem 0.7rem rgba(0,0,0,0.2);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .btn-admin:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 0.6rem 1rem rgba(0,0,0,0.3);
+  }
+  .admin-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+  }
+  .admin-footer-note {
+    font-size: 0.9rem;
+    color: #adb5bd;
+    margin-top: 2rem;
+    text-align: center;
+  }
+
+  /* Dashboard Cards */
+  .dashboard-cards {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+  }
+  .card-admin {
+    background: #495057;
+    color: #f8f9fa;
+    border-radius: 0.75rem;
+    padding: 2rem;
+    width: 220px;
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.3);
+    text-align: center;
+    transition: background-color 0.3s ease;
+  }
+  .card-admin:hover {
+    background-color: #6c757d;
+  }
+  .card-admin h3 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .card-admin p {
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+
+  /* Latest Activity */
+  .latest-activity {
+    max-width: 800px;
+    margin: 0 auto 4rem;
+    background: #343a40;
+    border-radius: 0.75rem;
+    padding: 2rem;
+    color: #ced4da;
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.3);
+  }
+  .latest-activity h2 {
+    color: #ffc107;
+    margin-bottom: 1rem;
+  }
+  .activity-list {
+    list-style: none;
+    padding-left: 0;
+    max-height: 220px;
+    overflow-y: auto;
+  }
+  .activity-list li {
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #495057;
+  }
+  .activity-time {
+    font-size: 0.8rem;
+    color: #6c757d;
+  }
+</style>
+
+<div class="container my-5">
+  <!-- Welcome Banner -->
+  <div class="admin-jumbotron text-center">
+    <h1 class="display-3">Welcome, Admin</h1>
+    <p class="lead">You have full access to manage the Ankit's HealthCare Center.</p>
+    <hr>
+    <div class="admin-buttons">
+      <a href="/adminsignup" class="btn btn-warning btn-admin">Create Account</a>
+      <a href="/adminlogin" class="btn btn-success btn-admin">Sign In</a>
+    </div>
+    <p class="admin-footer-note mt-4">
+      Manage doctors, appointments, and patient records with ease.
+    </p>
+  </div>
+
+  <!-- Dashboard Summary Cards -->
+  <div class="dashboard-cards">
+    <div class="card-admin">
+      <h3>125</h3>
+      <p>Total Doctors</p>
+    </div>
+    <div class="card-admin">
+      <h3>350</h3>
+      <p>Registered Patients</p>
+    </div>
+    <div class="card-admin">
+      <h3>84</h3>
+      <p>Appointments Today</p>
+    </div>
+    <div class="card-admin">
+      <h3>12</h3>
+      <p>Pending Approvals</p>
+    </div>
+  </div>
+
+  <!-- Latest Activity -->
+  <section class="latest-activity">
+    <h2>Latest Activity</h2>
+    <ul class="activity-list">
+      <li>
+        <strong>Dr. Smith</strong> was assigned to <strong>Patient John Doe</strong>.
+        <div class="activity-time">2 hours ago</div>
+      </li>
+      <li>
+        <strong>Appointment #234</strong> was approved by admin.
+        <div class="activity-time">4 hours ago</div>
+      </li>
+      <li>
+        New patient <strong>Jane Williams</strong> registered.
+        <div class="activity-time">1 day ago</div>
+      </li>
+      <li>
+        Admin updated doctor availability schedule.
+        <div class="activity-time">2 days ago</div>
+      </li>
+    </ul>
+  </section>
+
+  <p class="admin-footer-note">
+    © 2025 HealthCare Center. All rights reserved.
   </p>
 </div>
+
 {% endblock %}
