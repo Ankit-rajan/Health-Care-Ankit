@@ -1,48 +1,181 @@
 <!DOCTYPE html>
-
 <html lang="en" dir="ltr">
 
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <title>HMS - Django</title>
 
+  <style>
+    /* Base and reset */
+    body {
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: #f5f7fa;
+      margin: 0;
+      color: #333;
+    }
 
-  <style media="screen">
+    /* Spacing below navbar */
+    br {
+      margin-bottom: 0.8rem;
+    }
+
+    /* Main container */
     .jumbotron {
-      margin-top: 0px;
-      margin-bottom: 0px;
+      max-width: 720px;
+      margin: 40px auto 20px auto;
+      background: white;
+      padding: 30px 40px;
+      border-radius: 10px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      color: #222;
     }
 
     .jumbotron h1 {
-      text-align: center;
+      color: #0d6efd;
+      font-weight: 700;
+      font-size: 2.8rem;
+      margin-bottom: 1rem;
     }
 
-    .alert {
-      margin: 0px;
+    .jumbotron .lead {
+      font-size: 1.2rem;
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+
+    .jumbotron hr {
+      margin: 2rem 0;
+      border: none;
+      border-top: 2px solid #e9ecef;
+    }
+
+    .jumbotron p.check-later {
+      color: #666;
+      font-style: italic;
+      margin-bottom: 2rem;
+      font-size: 1rem;
+    }
+
+    /* Logout button */
+    .btn-primary {
+      background-color: #0d6efd;
+      color: white;
+      padding: 12px 28px;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+      display: inline-block;
+    }
+
+    .btn-primary:hover {
+      background-color: #084ecf;
+      text-decoration: none;
+      color: white;
+    }
+
+    /* Additional info section styling */
+    .info-section {
+      max-width: 720px;
+      margin: 30px auto 60px auto;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+      padding: 30px 40px;
+      color: #444;
+      text-align: left;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+
+    .info-section h2 {
+      color: #0d6efd;
+      font-weight: 700;
+      margin-bottom: 15px;
+      font-size: 1.8rem;
+    }
+
+    .info-section ul {
+      padding-left: 20px;
+      list-style-type: disc;
+    }
+
+    .info-section ul li {
+      margin-bottom: 10px;
+    }
+
+    /* Responsive tweaks */
+    @media (max-width: 600px) {
+      .jumbotron,
+      .info-section {
+        margin: 20px 15px;
+        padding: 20px;
+      }
+
+      .jumbotron h1 {
+        font-size: 2rem;
+      }
+
+      .info-section h2 {
+        font-size: 1.4rem;
+      }
     }
   </style>
-
 </head>
 
 <body>
   {% include "hospital/navbar.html" %}
-  <br>
-  <br>
+  <br />
+  <br />
 
-  <div class="jumbotron" style="margin-top: 0px;
-    margin-bottom: 0px;">
-    <h1 class="display-4">Hello {{request.user.first_name}}</h1>
-    <p class="lead">Your Account is not approved till now <br><br>Our Team is checking your profile <br><br> Soon your Account will be confirmed !!!</p>
-    <hr class="my-4">
-    <p>Check Later</p>
+  <div class="jumbotron">
+    <h1>Hello {{ request.user.first_name }}</h1>
+    <p class="lead">
+      Your Account is not approved yet.<br /><br />
+      Our Team is carefully reviewing your profile.<br /><br />
+      You will receive confirmation soon!
+    </p>
+    <hr />
+    <p class="check-later">Please check back later or contact support if you have any questions.</p>
     <p class="lead">
       <a class="btn btn-primary btn-lg" href="/logout" role="button">Logout For Now</a>
     </p>
   </div>
 
+  <div class="info-section">
+    <h2>What to Expect Next</h2>
+    <ul>
+      <li>Your information is being verified to ensure the best care and security.</li>
+      <li>The approval process usually takes 24 to 48 hours.</li>
+      <li>You will be notified via email once your account is approved.</li>
+      <li>If additional information is required, our team will contact you directly.</li>
+    </ul>
+  </div>
+
+  <div class="info-section">
+    <h2>Helpful Tips While You Wait</h2>
+    <ul>
+      <li>Maintain a balanced diet and stay hydrated.</li>
+      <li>Prepare any medical questions or concerns for your future appointments.</li>
+      <li>Explore our <a href="/services" style="color: #0d6efd; text-decoration: underline;">services</a> to know more about what we offer.</li>
+      <li>Practice relaxation techniques like meditation or light exercise.</li>
+    </ul>
+  </div>
+
+  <div class="info-section">
+    <h2>Need Assistance?</h2>
+    <ul>
+      <li>Email us at <a href="mailto:support@yourhospital.com" style="color: #0d6efd;">support@yourhospital.com</a></li>
+      <li>Call us at +91-9876543210 (Mon-Sat, 9 AM to 6 PM)</li>
+      <li>Visit our <a href="/contact" style="color: #0d6efd; text-decoration: underline;">contact page</a> for more options.</li>
+    </ul>
+  </div>
+
   {% include "hospital/footer.html" %}
 </body>
-
 
 </html>
