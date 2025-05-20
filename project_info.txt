@@ -1,0 +1,140 @@
+============================================================
+🎓 Project Information - Hospital Management System
+============================================================
+
+📌 Student Name   : Ankit  
+📌 Roll Number    : 2203002024  
+📌 Semester       : 6th  
+📌 Project Title  : Hospital Management System  
+📌 Technology     : Django (Python-Based Fullstack Framework)  
+📌 Submission Date: 20/05/2025
+
+------------------------------------------------------------
+🛠️ Technologies & Tools Used:
+------------------------------------------------------------
+- Backend        : Python 3.x, Django 3.0.5
+- Frontend       : HTML5, CSS3, Bootstrap (if used)
+- Database       : SQLite3 (Default Django DB)
+- Email Service  : SMTP using Django Email System
+- PDF Generation : xhtml2pdf, ReportLab
+- Chart/Stats    : Plotly, Pandas, Streamlit
+- QR Codes       : qrcode
+- MongoDB Access : pymongo, mongoengine (if used)
+- Others         : Git, VS Code
+
+------------------------------------------------------------
+📦 Python Dependencies (Auto-Generated via `pip freeze`):
+------------------------------------------------------------
+Main packages:
+- Django==3.0.5
+- pillow==10.4.0
+- django-widget-tweaks==1.4.8
+- xhtml2pdf==0.2.17
+- qrcode==8.1
+- pymongo==4.12.0
+- mongoengine==0.29.1
+- streamlit==1.27.2
+- pandas==2.1.1
+- matplotlib / plotly==5.17.0
+- reportlab==4.4.0
+- pyHanko==0.26.0 (for PDF signing, if used)
+(Full list is available in `requirements.txt`)
+
+------------------------------------------------------------
+⚙️ Setup & Installation Instructions:
+------------------------------------------------------------
+1. ✅ Create and activate virtual environment:
+   > python -m venv env  
+   > env\Scripts\activate
+
+2. ✅ Install all required packages:
+   > pip install -r requirements.txt
+
+3. ✅ Navigate into the project folder:
+   > cd HospitalManagement_Django
+
+4. ✅ Run the Django development server:
+   > python manage.py runserver
+
+5. 🔗 Open the app in your browser:
+   http://127.0.0.1:8000/
+
+------------------------------------------------------------
+🔐 Environment & Config (if applicable):
+------------------------------------------------------------
+- SMTP Email Setup (in settings.py or .env):
+  EMAIL_BACKEND, EMAIL_HOST, EMAIL_PORT, EMAIL_HOST_USER, EMAIL_HOST_PASSWORD
+- Database config (default: SQLite)
+
+------------------------------------------------------------
+📁 Project Structure (Simplified):
+------------------------------------------------------------
+HospitalManagement_Django/
+├── manage.py
+├── requirements.txt
+├── project_info.txt
+├── app_name/ (HospitalManagement_Django)
+├── templates/
+├── static/
+├── media/
+└── db.sqlite3
+
+------------------------------------------------------------
+📞 Contact:
+------------------------------------------------------------
+For demonstration or viva, run the project locally using steps above.
+
+
+
+------------------------------------------------------------
+🚀 Features of the Hospital Management System:
+------------------------------------------------------------
+
+✅ Patient Management:
+   - Patient registration and login
+   - Secure password management
+   - View personal details and appointment history
+
+✅ Appointment System:
+   - Book appointments online
+   - Select date, time, and department
+   - Receive appointment confirmation via email
+
+✅ Admin Dashboard:
+   - View, approve, edit, or delete patient appointments
+   - Assign doctors to patients
+   - Admit or discharge patients
+   - Manage all hospital data from a centralized panel
+
+✅ Doctor Assignment:
+   - Assign doctors with specific date and time
+   - Notify patients via email upon assignment
+
+✅ Contact Form:
+   - Secure contact form submission
+   - Sends professional acknowledgment email to the patient
+
+✅ Email Notifications:
+   - Appointment confirmation email
+   - Doctor assignment confirmation email
+   - Contact form thank-you response
+
+✅ PDF Generation:
+   - Generate and download appointment receipts as PDF
+   - Patient summary or report in PDF using xhtml2pdf and ReportLab
+
+✅ QR Code Integration:
+   - Generates a QR code for appointments or patient info (optional)
+
+✅ Data Visualization (Optional if used):
+   - Statistics via Streamlit / Plotly
+   - Visual dashboards for admins
+
+✅ Responsive Design:
+   - Mobile-friendly layout using HTML, CSS, and Bootstrap
+
+✅ Security:
+   - CSRF protection
+   - Secure user authentication
+   - Use of environment variables for sensitive data
+
